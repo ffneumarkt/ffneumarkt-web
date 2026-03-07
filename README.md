@@ -13,7 +13,7 @@ Current project documentation for the FF Neumarkt public website.
 - `Astro 5` with `@astrojs/cloudflare` adapter
 - `output: "server"` (hybrid: most routes prerendered, one dynamic route)
 - `Tailwind CSS v4` via `@tailwindcss/vite`
-- Vehicle gallery implemented in Astro + lightweight browser script
+- Shared carousel behavior for hero and vehicle galleries via lightweight browser script
 - Structured YAML data for vehicle detail content (`.yaml`)
 - `Keystatic` CMS config with local file storage
 - Self-hosted font via `@fontsource/roboto`
@@ -68,9 +68,9 @@ Notes:
 - Path alias `@/` maps to `src/`.
 
 ## Build and deploy
-Preview:
+Build:
 ```bash
-make dev
+npx astro build
 ```
 
 Deploy to Cloudflare Workers (using `wrangler.jsonc`):
