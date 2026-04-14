@@ -64,14 +64,14 @@ jobs:
                 process.exit(1);
               }
 
-              if (site !== 'https://ffneumarkt.loisinger.com') {
+              if (site !== 'https://ffneumarkt.at') {
                 console.error('\\nValidation Failed!');
-                console.error('Expected: site: \"https://ffneumarkt.loisinger.com\"');
+                console.error('Expected: site: \"https://ffneumarkt.at\"');
                 console.error('Found:    site: \"' + site + '\"');
                 process.exit(1);
               }
               
-              console.log('Validation Passed! site is correctly set to https://ffneumarkt.loisinger.com.');
+              console.log('Validation Passed! site is correctly set to https://ffneumarkt.at.');
             } catch (err) {
               console.error('Error reading file:', err.message);
               process.exit(1);
