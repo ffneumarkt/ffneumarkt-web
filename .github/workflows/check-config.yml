@@ -27,14 +27,14 @@ jobs:
               
               const name = match[1];
               
-              if (name !== 'ffneumarkt') {
+              if (name !== 'ffneumarkt-web') {
                 console.error('\nValidation Failed!');
-                console.error('Expected: \"name\": \"ffneumarkt\"');
+                console.error('Expected: \"name\": \"ffneumarkt-web\"');
                 console.error('Found:    \"name\": \"' + name + '\"');
                 process.exit(1);
               }
               
-              console.log('Validation Passed! Name is correctly set to ffneumarkt.');
+              console.log('Validation Passed! Name is correctly set to ffneumarkt-web.');
             } catch (err) {
               console.error('Error reading file:', err.message);
               process.exit(1);
