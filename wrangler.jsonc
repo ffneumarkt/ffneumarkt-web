@@ -7,6 +7,9 @@
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
+	"build": {
+		"command": "mkdir -p dist && printf '_worker.js\\n_routes.json\\n' > dist/.assetsignore"
+	},
 	"assets": {
 		"binding": "ASSETS",
 		"directory": "./dist"
