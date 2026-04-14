@@ -1,0 +1,79 @@
+name: Check Wrangler Config Name
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  verify-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify "name" in wrangler.jsonc
+        run: |
+          node -e "
+            const fs = require('fs');
+            try {
+              const content = fs.readFileSync('wrangler.jsonc', 'utf8');
+              // Matches 'name' as a key, ignoring potential whitespace
+              const match = content.match(/\"name\"\s*:\s*\"([^\"]+)\"/);
+              
+              if (!match) {
+                console.error('Error: Could not find a valid \"name\" field in wrangler.jsonc.');
+                process.exit(1);
+              }
+              
+              const name = match[1];
+              
+              if (name !== 'ffneumarkt') {
+                console.error('\nValidation Failed!');
+                console.error('Expected: \"name\": \"ffneumarkt\"');
+                console.error('Found:    \"name\": \"' + name + '\"');
+                process.exit(1);
+              }
+              
+              console.log('Validation Passed! Name is correctly set to ffneumarkt.');
+            } catch (err) {
+              console.error('Error reading file:', err.message);
+              process.exit(1);
+            }
+          "
+  verify-astro-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify "site" in astro.config.mjs
+        run: |
+          node -e "
+            const fs = require('fs');
+            try {
+              const content = fs.readFileSync('astro.config.mjs', 'utf8');
+              const inlineMatch = content.match(/\\bsite\\s*:\\s*['\\\"]([^'\\\"]+)['\\\"]/);
+              const constMatch = content.match(/\\bconst\\s+site\\s*=\\s*['\\\"]([^'\\\"]+)['\\\"]/);
+              const usesSiteVariable = /defineConfig\\s*\\(\\s*\\{[\\s\\S]*\\bsite\\s*,/.test(content)
+                || /defineConfig\\s*\\(\\s*\\{[\\s\\S]*\\bsite\\s*:\\s*site\\b/.test(content);
+
+              const site = inlineMatch?.[1] ?? (usesSiteVariable ? constMatch?.[1] : undefined);
+
+              if (!site) {
+                console.error('Error: Could not find a valid \"site\" field in astro.config.mjs.');
+                process.exit(1);
+              }
+
+              if (site !== 'https://ffneumarkt.loisinger.com') {
+                console.error('\\nValidation Failed!');
+                console.error('Expected: site: \"https://ffneumarkt.loisinger.com\"');
+                console.error('Found:    site: \"' + site + '\"');
+                process.exit(1);
+              }
+              
+              console.log('Validation Passed! site is correctly set to https://ffneumarkt.loisinger.com.');
+            } catch (err) {
+              console.error('Error reading file:', err.message);
+              process.exit(1);
+            }
+          "
