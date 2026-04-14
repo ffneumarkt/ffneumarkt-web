@@ -1,0 +1,91 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+import PageHeader from "@/components/shared/heading/PageHeader.astro";
+import SectionTitle from "@/components/shared/heading/SectionTitle.astro";
+import Card from "@/components/features/portrait/Card.astro";
+
+import { getCollection } from "astro:content";
+import { RANK_CONFIG } from "@/config/ranks";
+
+export const prerender = true;
+
+const allTeam = await getCollection("team");
+const groupOrder = ["officer", "charge", "honorary"];
+
+// Setup Map for Sorting
+const rankMap = new Map<string, number>(
+    RANK_CONFIG.map((r) => [r.value, r.sortOrder]),
+);
+
+function getMembersByGroup(groupValue: string) {
+    return allTeam
+        .filter(
+            (member) =>
+                member.data.group && member.data.group.includes(groupValue),
+        )
+        .sort((a, b) => {
+            const orderA = rankMap.get(a.data.rank) ?? 999;
+            const orderB = rankMap.get(b.data.rank) ?? 999;
+
+            if (orderA !== orderB) {
+                return orderA - orderB;
+            }
+
+            if (
+                a.data.group.includes("honorary") &&
+                b.data.group.includes("honorary")
+            ) {
+                const yearA = a.data.honoraryYear || 9999;
+                const yearB = b.data.honoraryYear || 9999;
+
+                if (yearA !== yearB) {
+                    return yearA - yearB;
+                }
+            }
+
+            return a.data.name.localeCompare(b.data.name);
+        });
+}
+
+const groupTitles: Record<string, string> = {
+    officer: "Kommando",
+    charge: "Erweitertes Kommando",
+    honorary: "Ehrendienstgradträger",
+};
+---
+
+<Layout title="Mannschaft" showTopAnchorButton>
+    <div class="max-w-6xl mx-auto px-4">
+        <PageHeader
+            heading="Unsere Mannschaft"
+            subtext="Die Frauen und Männer, die 365 Tage im Jahr freiwillig für Ihre Sicherheit sorgen."
+        />
+
+        <div class="space-y-4 md:space-y-20">
+            {
+                groupOrder.map((groupKey) => {
+                    const members = getMembersByGroup(groupKey);
+
+                    if (members.length === 0) return null;
+
+                    return (
+                        <section class="relative">
+                            <div class="sticky top-20 z-40 bg-global-bg/90 backdrop-blur-md px-4 -mx-4 py-2">
+                                <SectionTitle>
+                                    {groupTitles[groupKey] || groupKey}
+                                </SectionTitle>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+                                {members.map((member) => (
+                                    <Card data={member.data} isRoleDisplayed={groupTitles[groupKey] !== "Ehrendienstgradträger"}/>
+                                ))}
+                            </div>
+                        </section>
+                    );
+                })
+            }
+        </div>
+    </div>
+</Layout>

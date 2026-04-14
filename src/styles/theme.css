@@ -1,0 +1,52 @@
+:root {
+    --color-primary: #0f172a;
+
+    --color-secondary: #334155;
+    --color-secondary-bg: #f1f5f9;
+
+    /* Primary brand color (RAL 3000) */
+    --color-accent: #AF2B1E;
+    
+    /* High-intensity variant for graphic elements, timeline icons */
+    --color-accent-vivid: #e7000b;
+
+    /* Text written on accent */
+    --color-on-accent: #ffffff;
+
+    /*  
+        Text written on accent-bg. 
+        RAL 3000 with reduced brightness to achieve 7:1 contrast with accent-bg to fulfill WCAG 2 AAA 
+    */
+    --color-accent-text: #9e2719;
+
+    /* Light version of accent for background that is written on with accent-text*/
+    --color-accent-bg: #fef2f2;
+
+    --color-muted: #717a86;
+    --color-muted-bg: #f9fafb;
+
+    --color-dark-primary: #fff;
+    --color-dark-secondary: #94a3b8;
+    --color-dark-bg: #0f172a;
+}
+
+@theme {
+    --color-primary: var(--color-primary);
+    --color-global-bg: var(--color-secondary-bg);
+
+    --color-accent: var(--color-accent);
+    --color-accent-vivid: var(--color-accent-vivid);
+    --color-on-accent: var(--color-on-accent);
+
+    --color-accent-text: var(--color-accent-text);
+    --color-accent-bg: var(--color-accent-bg);
+
+    --color-secondary: var(--color-secondary);
+
+    --color-muted: var(--color-muted);
+    --color-muted-bg: var(--color-muted-bg);
+
+    --color-dark-primary: var(--color-dark-primary);
+    --color-dark-secondary: var(--color-dark-secondary);
+    --color-dark-bg: var(--color-dark-bg);
+}

@@ -1,0 +1,7 @@
+name: Josef Klepatsch
+image: '@/assets/commanders/josef-klepatsch/image.jpeg'
+dob: 1904-10-16
+dod: 1980-01-06
+servicePeriods:
+  - startYear: 1933
+    endYear: 1934

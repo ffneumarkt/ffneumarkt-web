@@ -1,0 +1,53 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import JourneyHero from "@/components/features/home/JourneyHero.astro";
+import { getEntryOrThrow } from "@/utils/entry";
+import { getImage } from "astro:assets";
+
+const landingPage = await getEntryOrThrow("landingPage", "data");
+const settings = await getEntryOrThrow("settings", "data");
+
+const heroImages = landingPage.data.heroImages ?? [];
+const infoBlocksRaw = landingPage.data.journeyHeroInfoBlocks ?? [];
+const factBlocks = landingPage.data.journeyHeroFactBlocks ?? [];
+const collageSources = heroImages.slice(0, 6);
+
+const collageImages = await Promise.all(
+	collageSources.map(async (item) => {
+		const optimized = await getImage({
+			src: item.image,
+			width: 900,
+			format: "webp",
+		});
+		return { src: optimized.src, alt: item.alt };
+	})
+);
+
+const infoBlocks = await Promise.all(
+	infoBlocksRaw.map(async (block) => {
+		const optimized = await getImage({
+			src: block.image,
+			width: 1200,
+			format: "webp",
+		});
+		return {
+			...block,
+			image: { src: optimized.src, alt: block.imageAlt },
+		};
+	})
+);
+
+export const prerender = true;
+---
+
+<Layout title="Startseite">
+	<JourneyHero
+		fireBrigadeName={settings.data.fireBrigadeName.organization}
+		location={settings.data.fireBrigadeName.location}
+		heroKicker={landingPage.data.heroKicker}
+		heroTagline={landingPage.data.heroTagline}
+		collageImages={collageImages}
+		infoBlocks={infoBlocks}
+		factBlocks={factBlocks}
+	/>
+</Layout>

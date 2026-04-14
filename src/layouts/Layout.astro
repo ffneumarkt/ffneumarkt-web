@@ -1,0 +1,296 @@
+---
+import "@fontsource/roboto";
+import "@/styles/global.css";
+import HeaderNavLink from "@/components/shared/navigation/HeaderNavLink.astro";
+import FooterNavLink from "@/components/shared/navigation/FooterNavLink.astro";
+import { formatAddressMultiline } from "@/utils/address";
+import { getEntryOrThrow } from "@/utils/entry";
+import {
+  formatLongFireBrigadeName,
+  formatShortFireBrigadeName,
+} from "@/utils/fireBrigadeName";
+
+interface Props {
+  title: string;
+  showTopAnchorButton?: boolean;
+}
+
+const { title, showTopAnchorButton = false } = Astro.props;
+const settings = await getEntryOrThrow("settings", "data");
+
+const fireBrigadeName = formatLongFireBrigadeName(
+  settings.data.fireBrigadeName,
+);
+const shortFireBrigadeName = formatShortFireBrigadeName(
+  settings.data.fireBrigadeName,
+);
+const mixedFireBrigadeName =
+  (settings.data.fireBrigadeName.organizationShort ||
+    settings.data.fireBrigadeName.organization) +
+  " " +
+  settings.data.fireBrigadeName.location;
+
+const pageTitle = title + " - " + shortFireBrigadeName;
+const pageDescription = `Website der ${fireBrigadeName}`;
+const previewImageUrl = "/IconForOpenGraph.jpg";
+const emergencyNumber = settings.data.emergencyNumber;
+const addressText = formatAddressMultiline(settings.data.address);
+const primaryNavigation = [
+  { href: "/", label: "Startseite" },
+  { href: "/fahrzeuge", label: "Fahrzeuge" },
+  { href: "/mannschaft", label: "Mannschaft" },
+  { href: "/geschichte", label: "Geschichte" },
+  { href: "/kontakt", label: "Kontakt" },
+];
+const footerNavigation = [
+  ...primaryNavigation.filter((entry) => entry.href !== "/"),
+  { href: "/impressum", label: "Impressum" },
+  { href: "/datenschutz", label: "Datenschutz" },
+];
+---
+
+<!doctype html>
+<html lang="de" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/ico" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+
+    <meta name="description" content={pageDescription} />
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://ffneumarkt.at/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={previewImageUrl} />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="ffneumarkt.at" />
+    <meta property="twitter:url" content="https://ffneumarkt.at/" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={previewImageUrl} />
+  </head>
+  <body class="font-sans text-primary flex flex-col min-h-screen" id="top">
+    <div class="bg-accent text-on-accent text-xs font-bold py-2 px-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <span class="md:hidden"
+          >{mixedFireBrigadeName.toLocaleUpperCase("de-AT")}</span
+        >
+        <span class="hidden md:inline"
+          >{fireBrigadeName.toLocaleUpperCase("de-AT")}</span
+        >
+        <a class="flex items-center gap-4" href={`tel:${emergencyNumber}`}>
+          <span class="hidden md:inline text-on-accent">Im Notfall:</span>
+          <span class="bg-on-accent text-accent px-2 py-0.5 rounded shadow-sm">
+            Notruf {emergencyNumber}
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <header
+      class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 px-4 shadow-sm transition-all duration-300"
+      id="main-header"
+    >
+      <div class="container mx-auto">
+        <div class="flex justify-between items-center h-20">
+          <a href="/" class="block h-full p-2">
+            <img
+              src="/Logo_ffneumarkt_grey.png"
+              alt={`Logo ${fireBrigadeName}`}
+              class="h-full w-auto object-contain lg:object-left"
+              loading="eager"
+            />
+          </a>
+
+          <nav class="hidden md:flex items-center gap-1">
+            {
+              primaryNavigation.map((entry) => (
+                <HeaderNavLink href={entry.href}>{entry.label}</HeaderNavLink>
+              ))
+            }
+          </nav>
+
+          <button
+            id="mobile-menu-btn"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="main-nav-list"
+            class="md:hidden p-2 text-muted hover:text-accent-text focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <title>Navigation Menü</title>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full left-0"
+      >
+        <nav class="flex flex-col p-4 space-y-2">
+          {
+            primaryNavigation.map((entry) => (
+              <HeaderNavLink href={entry.href}>{entry.label}</HeaderNavLink>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+
+    <main class="grow py-8 bg-global-bg">
+      <slot />
+
+      {
+        showTopAnchorButton && (
+          <div class="container mx-auto pt-12">
+            <button
+              id="top-anchor-btn"
+              type="button"
+              class="group mx-auto flex items-center gap-2 bg-white hover:bg-muted-bg border border-slate-200 text-secondary hover:text-accent px-4 py-2 rounded-lg text-sm font-bold shadow-sm"
+              aria-label="Zum Seitenanfang"
+            >
+              <span class="inline-block text-accent text-lg">↑</span>
+              <span>zum Seitenanfang</span>
+            </button>
+          </div>
+        )
+      }
+    </main>
+
+    <footer class="bg-dark-bg py-12 text-sm mt-auto border-t border-primary">
+      <div class="container mx-auto px-4 grid md:grid-cols-3 gap-12">
+        <div>
+          <h2
+            class="text-dark-primary font-bold uppercase tracking-widest mb-6 border-l-4 border-accent pl-3"
+          >
+            Kontakt
+          </h2>
+          <p class="text-dark-secondary">{fireBrigadeName}</p>
+          <p
+            class="whitespace-pre-line leading-relaxed mb-4 text-dark-secondary"
+          >
+            {addressText}
+          </p>
+          <a
+            class="flex items-center gap-3 text-on-accent"
+            href={`tel:${emergencyNumber}`}
+          >
+            <span class="bg-accent text-xs font-bold px-2 py-1 rounded">
+              NOTRUF {emergencyNumber}
+            </span>
+          </a>
+        </div>
+
+        <div>
+          <h2
+            class="text-dark-primary font-bold uppercase tracking-widest mb-6 border-l-4 border-accent pl-3"
+          >
+            Navigation
+          </h2>
+          <ul class="space-y-3">
+            {
+              footerNavigation.map((entry) => (
+                <FooterNavLink href={entry.href}>{entry.label}</FooterNavLink>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2
+            class="text-dark-primary font-bold uppercase tracking-widest mb-6 border-l-4 border-accent pl-3"
+          >
+            Social Media
+          </h2>
+          <div class="flex gap-4">
+            {
+              settings.data.facebookUrl && (
+                <a
+                  href={settings.data.facebookUrl}
+                  target="_blank"
+                  class="bg-slate-800 hover:bg-[#1877F2] hover:text-dark-primary text-dark-secondary w-10 h-10 rounded flex items-center justify-center transition-all duration-300"
+                >
+                  <svg
+                    aria-label="Facebook"
+                    fill="currentColor"
+                    height="24"
+                    viewBox="0 0 36 36"
+                    width="40"
+                  >
+                    <title>Facebook</title>
+                    <path
+                      class="xe3v8dz"
+                      d="M13.651 35.471v-11.97H9.936V18h3.715v-2.37c0-6.127 2.772-8.964 8.784-8.964 1.138 0 3.103.223 3.91.446v4.983c-.425-.043-1.167-.065-2.081-.065-2.952 0-4.09 1.116-4.09 4.025V18h5.883l-1.008 5.5h-4.867v12.37a18.183 18.183 0 0 1-6.53-.399Z"
+                    />
+                  </svg>
+                </a>
+              )
+            }
+            {
+              settings.data.instagramUrl && (
+                <a
+                  href={settings.data.instagramUrl}
+                  target="_blank"
+                  class="bg-slate-800 hover:bg-[#E4405F] hover:text-dark-primary text-dark-secondary w-10 h-10 rounded flex items-center justify-center transition-all duration-300"
+                >
+                  <svg
+                    aria-label="Instagram"
+                    fill="currentColor"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <title>Instagram</title>
+                    <path d="M12 2.982c2.937 0 3.285.011 4.445.064a6.087 6.087 0 0 1 2.042.379 3.408 3.408 0 0 1 1.265.823 3.408 3.408 0 0 1 .823 1.265 6.087 6.087 0 0 1 .379 2.042c.053 1.16.064 1.508.064 4.445s-.011 3.285-.064 4.445a6.087 6.087 0 0 1-.379 2.042 3.643 3.643 0 0 1-2.088 2.088 6.087 6.087 0 0 1-2.042.379c-1.16.053-1.508.064-4.445.064s-3.285-.011-4.445-.064a6.087 6.087 0 0 1-2.043-.379 3.408 3.408 0 0 1-1.264-.823 3.408 3.408 0 0 1-.823-1.265 6.087 6.087 0 0 1-.379-2.042c-.053-1.16-.064-1.508-.064-4.445s.011-3.285.064-4.445a6.087 6.087 0 0 1 .379-2.042 3.408 3.408 0 0 1 .823-1.265 3.408 3.408 0 0 1 1.265-.823 6.087 6.087 0 0 1 2.042-.379c1.16-.053 1.508-.064 4.445-.064M12 1c-2.987 0-3.362.013-4.535.066a8.074 8.074 0 0 0-2.67.511 5.392 5.392 0 0 0-1.949 1.27 5.392 5.392 0 0 0-1.269 1.948 8.074 8.074 0 0 0-.51 2.67C1.012 8.638 1 9.013 1 12s.013 3.362.066 4.535a8.074 8.074 0 0 0 .511 2.67 5.392 5.392 0 0 0 1.27 1.949 5.392 5.392 0 0 0 1.948 1.269 8.074 8.074 0 0 0 2.67.51C8.638 22.988 9.013 23 12 23s3.362-.013 4.535-.066a8.074 8.074 0 0 0 2.67-.511 5.625 5.625 0 0 0 3.218-3.218 8.074 8.074 0 0 0 .51-2.67C22.988 15.362 23 14.987 23 12s-.013-3.362-.066-4.535a8.074 8.074 0 0 0-.511-2.67 5.392 5.392 0 0 0-1.27-1.949 5.392 5.392 0 0 0-1.948-1.269 8.074 8.074 0 0 0-2.67-.51C15.362 1.012 14.987 1 12 1Zm0 5.351A5.649 5.649 0 1 0 17.649 12 5.649 5.649 0 0 0 12 6.351Zm0 9.316A3.667 3.667 0 1 1 15.667 12 3.667 3.667 0 0 1 12 15.667Zm5.872-10.859a1.32 1.32 0 1 0 1.32 1.32 1.32 1.32 0 0 0-1.32-1.32Z" />
+                  </svg>
+                </a>
+              )
+            }
+          </div>
+          <p class="mt-6 text-xs text-dark-secondary">
+            &copy; {new Date().getFullYear()}
+            {shortFireBrigadeName}.<br />
+            Einsatzbereit rund um die Uhr.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.getElementById("mobile-menu-btn");
+      const menu = document.getElementById("mobile-menu");
+      const topAnchorBtn = document.getElementById("top-anchor-btn");
+
+      if (btn && menu) {
+        btn.addEventListener("click", () => {
+          menu.classList.toggle("hidden");
+        });
+      }
+
+      if (topAnchorBtn) {
+        topAnchorBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    </script>
+  </body>
+</html>

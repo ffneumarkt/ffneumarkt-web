@@ -1,0 +1,7 @@
+name: Franz Brandstetter
+image: '@/assets/commanders/franz-brandstetter/image.jpeg'
+dob: 1913-06-09
+dod: 1998-06-29
+servicePeriods:
+  - startYear: 1950
+    endYear: 1953

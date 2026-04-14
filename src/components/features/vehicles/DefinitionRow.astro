@@ -1,0 +1,16 @@
+---
+interface Props {
+    label: string;
+    last?: boolean;
+}
+const { label, last } = Astro.props;
+---
+
+<div
+    class={`flex justify-between ${!last && "border-b border-slate-200 pb-2 border-dashed"}`}
+>
+    <dt class="text-secondary font-medium">{label}</dt>
+    <dd class="font-bold text-primary">
+        <slot />
+    </dd>
+</div>

@@ -1,0 +1,26 @@
+name: Löschunterstützungsfahrzeug
+tacticalName: LUF 60
+gallery:
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/0.jpeg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/1.jpg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/2.jpeg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/3.jpg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/4.jpg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/5.jpg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/6.jpg'
+  - '@/assets/vehicles/loeschunterstuetzungsfahrzeug/gallery/7.jpeg'
+sortOrder: 4
+specs:
+  power: 101kW (138PS)
+  weight: 2 200 kg
+  construction: '2017'
+  manufacturer: John Deere
+details:
+  - amount: 400 l/min
+    item: Düsenkranz
+  - amount: 3 000 l/min
+    item: Hohlstrahlmonitor
+  - amount: 90 000 m³/h
+    item: Ventilator
+  - amount: 165 km/h
+    item: Ventilator

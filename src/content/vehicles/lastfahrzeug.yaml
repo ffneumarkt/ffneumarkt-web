@@ -1,0 +1,17 @@
+name: Lastfahrzeug
+tacticalName: LAST
+gallery:
+  - '@/assets/vehicles/lastfahrzeug/gallery/0.JPEG'
+  - '@/assets/vehicles/lastfahrzeug/gallery/1.jpg'
+  - '@/assets/vehicles/lastfahrzeug/gallery/2.jpg'
+sortOrder: 5
+specs:
+  power: 125kW (170PS)
+  weight: 7 000kg
+  crew: '1 : 3'
+  construction: '2017'
+  manufacturer: Iveco
+details:
+  - amount: 3 Twinpack
+    item: Atemschutzgeräte
+  - item: Zubehör LUF 60

@@ -1,0 +1,78 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageTitle from "@/components/shared/heading/PageTitle.astro";
+import InlineLink from "@/components/shared/link/InlineLink.astro";
+import SectionTitle from "@/components/shared/heading/SectionTitle.astro";
+
+export const prerender = true;
+---
+
+<Layout title="Datenschutz">
+    <div class="max-w-3xl mx-auto px-4">
+        <PageTitle>Datenschutzerklärung</PageTitle>
+
+        <div class="bg-green-50 border-l-4 border-green-500 p-4 my-6">
+            <p class="font-bold text-green-800">Kurzfassung für Eilige:</p>
+            <p class="text-green-700 text-sm mt-1">
+                Wir verwenden <strong>keine Tracking-Cookies</strong>, keine
+                Tracking-Tools (wie Google Analytics) und speichern keine
+                persönlichen Daten von normalen Website-Besuchern.
+            </p>
+        </div>
+
+        <p>
+            Der Schutz Ihrer Daten ist uns ein besonderes Anliegen. Wir
+            verarbeiten Ihre Daten daher ausschließlich auf Grundlage der
+            gesetzlichen Bestimmungen (DSGVO, TKG). In diesen
+            Datenschutzinformationen informieren wir Sie über die wichtigsten
+            Aspekte der Datenverarbeitung im Rahmen unserer Website.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6">Verantwortlicher</SectionTitle>
+        <p>Siehe <InlineLink href="/impressum">Impressum</InlineLink></p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6">Hosting & Logfiles</SectionTitle>
+        <p>
+            Diese Website wird bei <InlineLink href="https://www.cloudflare.com"
+                >Cloudflare</InlineLink
+            > gehostet. Um die Sicherheit und Funktionsfähigkeit der Website zu gewährleisten,
+            verarbeitet der Provider technisch notwendige Daten (z.B. IP-Adresse,
+            Browserversion), die ihr Browser automatisch übermittelt. Diese Daten
+            dienen ausschließlich der technischen Auslieferung der Seite und der Abwehr
+            von Angriffen. Sie werden nicht für Marketingzwecke genutzt.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6">Cookies</SectionTitle>
+        <p>
+            Diese Website verwendet für Besucher <strong>keine Cookies</strong> die
+            einer Einwilligung bedürfen.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6">Externe Medien</SectionTitle>
+        <p>
+            Wir binden keine externen Inhalte (wie YouTube, Google Maps oder
+            Facebook-Feeds) direkt ein, die ungefragt Daten an Dritte übertragen
+            würden. Alle Bilder und Schriften liegen lokal auf unserem Server.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6">Kontaktaufnahme</SectionTitle>
+        <p>
+            Wenn Sie uns per E-Mail <InlineLink href="/kontakt">kontaktieren</InlineLink>,
+            werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für
+            den Fall von Anschlussfragen sechs Monate bei uns gespeichert. Dies
+            ist ein berechtigtes Interesse i.S.d. DSGVO. Diese Daten geben wir
+            nicht ohne Ihre Einwilligung weiter.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6">Ihre Rechte als Betroffener</SectionTitle>
+        <p>
+            Ihnen stehen bezüglich Ihrer von uns verarbeiteten Daten
+            grundsätzlich die Rechte auf Auskunft, Berichtigung, Löschung,
+            Einschränkung, Datenübertragbarkeit, Widerruf und Widerspruch zu.
+            Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das
+            Datenschutzrecht verstößt oder Ihre datenschutzrechtlichen Ansprüche
+            sonst in einer Weise verletzt worden sind, können Sie sich bei uns
+            per E-Mail oder der Datenschutzbehörde beschweren.
+        </p>
+    </div>
+</Layout>

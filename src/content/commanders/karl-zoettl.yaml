@@ -1,0 +1,7 @@
+name: Karl Zöttl
+image: '@/assets/commanders/karl-zoettl/image.jpeg'
+dob: 1900-07-04
+dod: 1965-12-18
+servicePeriods:
+  - startYear: 1939
+    endYear: 1945

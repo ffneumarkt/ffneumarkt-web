@@ -1,0 +1,60 @@
+---
+import GridBlocks from "../GridBlocks";
+import type { JourneyHeroContext } from "../types";
+import FactCard from "./FactCard.astro";
+import HeroTextBlock from "../HeroTextBlock.astro";
+
+const {
+  heroKicker,
+  fireBrigadeName,
+  location,
+  heroTagline,
+  galleryItems,
+  factBlocks,
+} = Astro.props as JourneyHeroContext;
+---
+
+<div class="hidden lg:block w-full">
+  <div
+    class="container mx-auto grid gap-12 lg:grid-cols-[0.9fr_1.1fr] items-stretch pt-12"
+  >
+    <div class="relative w-full h-full">
+      <div class="grid grid-cols-3 gap-4 h-full content-between">
+        {
+          GridBlocks.map((block, index) => {
+            const image = galleryItems[index]!;
+            const isWide = block.position.includes("col-span-2");
+            return (
+              <div
+                class={`${block.position} relative overflow-hidden rounded-2xl shadow-lg shadow-red-900/10 ring-1 ring-white/70 ${isWide ? "aspect-video self-start" : ""}`}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  class="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-10 h-full">
+      <HeroTextBlock
+        heroKicker={heroKicker}
+        fireBrigadeName={fireBrigadeName}
+        location={location}
+        heroTagline={heroTagline}
+      />
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          factBlocks.map((block) => (
+            <FactCard title={block.title} description={block.description} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

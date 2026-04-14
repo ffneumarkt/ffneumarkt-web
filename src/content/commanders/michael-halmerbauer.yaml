@@ -1,0 +1,9 @@
+name: Michael Halmerbauer
+image: '@/assets/commanders/michael-halmerbauer/image.png'
+dob: 1904-03-22
+dod: 1963-11-23
+servicePeriods:
+  - startYear: 1935
+    endYear: 1939
+  - startYear: 1946
+    endYear: 1950

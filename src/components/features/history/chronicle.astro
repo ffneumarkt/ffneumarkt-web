@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+
+import Timeline from "@/components/features/history/Timeline.astro";
+import type { TimelineEntry, TimelineEntryIconMap } from "@/components/features/history/types";
+
+import fireIcon from "@/assets/icons/fire.svg?raw";
+import truckIcon from "@/assets/icons/truck.svg?raw";
+import buildingIcon from "@/assets/icons/building.svg?raw";
+import medalIcon from "@/assets/icons/star.svg?raw";
+
+const chronicleIconMap: TimelineEntryIconMap = {
+    fire: fireIcon,
+    truck: truckIcon,
+    building: buildingIcon,
+    medal: medalIcon,
+};
+
+const rawEntries = await getCollection("chronicle");
+const entries: TimelineEntry[] = rawEntries.map((entry) => ({
+    comparable: entry.data.year,
+    badge: entry.data.endYear
+        ? `${entry.data.year} - ${entry.data.endYear}`
+        : `${entry.data.year}`,
+    title: entry.data.title,
+    description: entry.data.description,
+    icon: entry.data.icon,
+    image: entry.data.image,
+}));
+---
+
+<Timeline
+    entries={entries}
+    iconMap={chronicleIconMap}
+    imageRatio="aspect-video"
+/>

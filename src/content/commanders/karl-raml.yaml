@@ -1,0 +1,7 @@
+name: Karl Raml
+image: '@/assets/commanders/karl-raml/image.jpeg'
+dob: 1876-05-23
+dod: 1938-07-20
+servicePeriods:
+  - startYear: 1928
+    endYear: 1933

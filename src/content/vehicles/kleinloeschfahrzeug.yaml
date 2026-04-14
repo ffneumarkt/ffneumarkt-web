@@ -1,0 +1,19 @@
+name: Kleinlöschfahrzeug
+tacticalName: KLF
+gallery:
+  - '@/assets/vehicles/kleinloeschfahrzeug/gallery/0.jpg'
+  - '@/assets/vehicles/kleinloeschfahrzeug/gallery/1.jpg'
+sortOrder: 6
+specs:
+  power: 70kW (95PS)
+  weight: 3 500 kg
+  crew: '1 : 8'
+  construction: '1990'
+  manufacturer: Mercedes
+details:
+  - amount: TS12
+    item: Tragkraftspritze Rosenbauer
+  - amount: 5 kVA
+    item: Stromerzeuger
+  - amount: 800 l/min
+    item: Tauchpumpe

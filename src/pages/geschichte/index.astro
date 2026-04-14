@@ -1,0 +1,109 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/shared/heading/PageHeader.astro";
+
+import Chronicle from "@/components/features/history/chronicle.astro";
+import Commanders from "@/components/features/history/commanders.astro";
+import { getEntryOrThrow } from "@/utils/entry";
+import { formatShortFireBrigadeName } from "@/utils/fireBrigadeName";
+
+export const prerender = true;
+
+const settings = await getEntryOrThrow("settings", "data");
+const fireBrigadeShortName = formatShortFireBrigadeName(
+    settings.data.fireBrigadeName,
+);
+---
+
+<Layout title="Geschichte" showTopAnchorButton>
+    <div data-history-tabs>
+        <PageHeader
+            heading="Unsere Geschichte"
+            subtext={`Die Geschichte der ${fireBrigadeShortName} im Wandel der Zeit`}
+        />
+        <div class="flex justify-center mb-12">
+            <div
+                class="inline-flex bg-white border border-slate-200 rounded-lg p-1 gap-2 shadow-sm"
+            >
+                <button
+                    data-tab-target="chronicle"
+                    class="tab-btn px-6 py-2.5 rounded-md text-sm font-bold transition-all bg-accent-bg text-accent-text"
+                >
+                    Meilensteine
+                </button>
+                <button
+                    data-tab-target="commanders"
+                    class="tab-btn px-6 py-2.5 rounded-md text-sm font-bold transition-all text-secondary hover:text-accent-text hover:bg-muted-bg"
+                >
+                    Kommandanten
+                </button>
+            </div>
+        </div>
+        <div class="relative mx-auto">
+            <div data-tab-content="chronicle" class="block animate-fade-in">
+                <Chronicle />
+            </div>
+            <div data-tab-content="commanders" class="hidden animate-fade-in">
+                <Commanders />
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    const root = document.querySelector("[data-history-tabs]");
+    if (
+        root instanceof HTMLElement &&
+        root.dataset.tabsInitialized !== "true"
+    ) {
+        root.dataset.tabsInitialized = "true";
+
+        const buttons = root.querySelectorAll(".tab-btn");
+        const contents = root.querySelectorAll("[data-tab-content]");
+
+        const active = ["bg-accent-bg", "text-accent-text"];
+        const inactive = [
+            "text-secondary",
+            "hover:text-accent-text",
+            "hover:bg-muted-bg",
+        ];
+
+        buttons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const target = btn.getAttribute("data-tab-target");
+
+                // Update Content
+                contents.forEach((el) => {
+                    const isMatch =
+                        el.getAttribute("data-tab-content") === target;
+                    el.classList.toggle("hidden", !isMatch);
+                    el.classList.toggle("block", isMatch);
+                });
+
+                // Update Buttons
+                buttons.forEach((b) => {
+                    const isActive = b === btn;
+                    active.forEach((cls) => b.classList.toggle(cls, isActive));
+                    inactive.forEach((cls) =>
+                        b.classList.toggle(cls, !isActive),
+                    );
+                });
+            });
+        });
+    }
+</script>
+
+<style>
+    .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>

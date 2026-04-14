@@ -1,0 +1,28 @@
+name: Rüstlöschfahrzeug
+tacticalName: RLF-A 2000 Tunnel
+gallery:
+  - '@/assets/vehicles/ruestloeschfahrzeug/gallery/0.jpeg'
+  - '@/assets/vehicles/ruestloeschfahrzeug/gallery/1.jpeg'
+  - '@/assets/vehicles/ruestloeschfahrzeug/gallery/2.jpeg'
+  - '@/assets/vehicles/ruestloeschfahrzeug/gallery/3.jpeg'
+  - '@/assets/vehicles/ruestloeschfahrzeug/gallery/4.jpeg'
+sortOrder: 2
+specs:
+  power: 213kW (290PS)
+  weight: 15 500kg
+  crew: '1 : 8'
+  construction: '2014'
+  manufacturer: MAN
+details:
+  - amount: 2 000 Liter
+    item: Wassertank
+  - amount: 400 Liter
+    item: Schaumtank
+  - amount: 60 Liter
+    item: Schaumkanister
+  - amount: 60 Meter
+    item: HD-Haspel
+  - amount: 14 kVA
+    item: Stromerzeuger
+  - amount: 7 Twinpack
+    item: Atemschutzgeräte

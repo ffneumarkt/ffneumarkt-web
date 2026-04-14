@@ -1,0 +1,42 @@
+---
+import type { GalleryImage, InfoBlock } from "./types";
+
+type InfoTextBlockProps = {
+  block: InfoBlock;
+  image?: GalleryImage;
+};
+
+const { block, image } = Astro.props as InfoTextBlockProps;
+---
+
+<div>
+  <a href={block.link}>
+    <div
+      class="card-interactive rounded-3xl border border-slate-100 bg-white/90 shadow-xl shadow-slate-200/40 ring-1 ring-slate-900/5 overflow-hidden"
+    >
+      {
+        image && (
+          <>
+            <div class="relative w-full aspect-video overflow-hidden">
+              <img
+                src={image.src}
+                alt={image.alt}
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <div class="h-px bg-slate-200/80" />
+          </>
+        )
+      }
+      <div class="space-y-4 p-4 sm:p-6">
+        <p class="text-sm font-bold tracking-[0.3em] text-red-600 uppercase">
+          {block.kicker}
+        </p>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+          {block.title}
+        </h2>
+        <p class="text-lg text-slate-600">{block.description}</p>
+      </div>
+    </div>
+  </a>
+</div>

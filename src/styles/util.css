@@ -1,0 +1,36 @@
+@layer components {
+
+    /* card zoom animation */
+    .card-interactive {
+        @apply bg-white shadow-md;
+        transition: none;
+    }
+
+    /* image zoom animation */
+    .image-interactive {
+        @apply block h-full w-full object-cover;
+        transition: none;
+    }
+
+    @media (min-width: 768px) {
+        .card-interactive {
+            @apply transition-all duration-300 ease-in-out;
+        }
+
+        .card-interactive:hover {
+            @apply -translate-y-0.5 shadow-xl;
+        }
+
+        .card-interactive:active {
+            @apply scale-[0.98];
+        }
+
+        .image-interactive {
+            @apply transition-transform duration-500 ease-out;
+        }
+
+        .group:hover .image-interactive {
+            @apply scale-105;
+        }
+    }
+}

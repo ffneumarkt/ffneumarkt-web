@@ -3,10 +3,10 @@
 Current project documentation for the FF Neumarkt public website.
 
 ## Scope
-- Start page with hero image carousel and entry cards
+- Start page with client-hydrated interactive sections
 - Vehicle overview and vehicle detail pages
 - Team page grouped into command sections
-- History page with two tabs: milestones (`Chronik`) and commanders
+- History page with two tabs: chronicle and commanders
 - Contact page plus legal pages (`Impressum`, `Datenschutz`)
 
 ## Stack and architecture
@@ -36,19 +36,37 @@ Content is file-based under `src/content` and media under `src/assets`.
 - Singleton: `settings` (`src/content/settings/data.yaml`)
   - emergency number, phone, email, social links, address
 - Singleton: `landingPage` (`src/content/landingPage/data.yaml`)
-  - hero carousel images
+  - hero images
 - Collection: `vehicles` (`src/content/vehicles/*.yaml`)
   - tactical name, gallery, technical specs, `details` array (amount + item)
 - Collection: `team` (`src/content/team/*.yaml`)
-  - name, rank, group, function, optional honorary year and photo
-- Collection: `chronik` (`src/content/chronik/*.yaml`)
+  - name, rank, group, role, optional honorary year and photo
+- Collection: `chronicle` (`src/content/chronicle/*.yaml`)
   - year, title, description, optional image, icon type
 - Collection: `commanders` (`src/content/commanders/*.yaml`)
   - name, image, DOB/DOD, service periods
 
 Keystatic is configured with `storage.kind = "local"` and is only integrated when `NODE_ENV !== "production"`.
 
+## Homepage data flow (`src/pages/index.astro`)
+- The homepage composes `JourneyHero` and prepares its media data at build time.
+- `landingPage.data.heroImages` is sliced to 6 items for the collage and optimized via `astro:assets`.
+- The collage images are passed with `{ src, alt }` so the hero can render accessible alt text.
+- `JourneyHero` is an Astro component rendered on the server without client hydration.
+- `JourneyHero` renders static info/fact content
+
 ## Local development
+Option A: Docker (recommended)
+1. Start dev server in a container:
+   ```bash
+   make dev
+   ```
+2. Open:
+   ```bash
+   http://localhost:4321/
+   ```
+
+Option B: Local Node
 1. Install dependencies:
    ```bash
    npm install
@@ -57,11 +75,11 @@ Keystatic is configured with `storage.kind = "local"` and is only integrated whe
    ```bash
    npm run astro dev
    ```
-3. Optional utility targets:
-   ```bash
-   make dev
-   make sync
-   ```
+
+Optional utility targets:
+```bash
+make sync
+```
 
 Notes:
 - Keystatic admin UI is available in non-production runs.

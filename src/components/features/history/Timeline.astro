@@ -1,0 +1,100 @@
+---
+import type {
+    TimelineEntry,
+    TimelineEntryIconMap,
+    ImageRatio,
+} from "@/components/features/history/types";
+import TimelineEntryCard from "@/components/features/history/TimelineEntryCard.astro";
+
+interface Props {
+    entries: TimelineEntry[];
+    iconMap?: TimelineEntryIconMap;
+    imageRatio: ImageRatio;
+}
+const { entries = [], iconMap, imageRatio } = Astro.props;
+const sortedEntries = [...entries].sort((a, b) => b.comparable - a.comparable);
+---
+
+<div class="timeline-root relative container mx-auto px-8 py-12">
+    <div class="flex justify-end mb-12 relative z-20">
+        <button
+            class="sort-toggle group flex items-center gap-2 bg-white hover:bg-muted-bg border border-slate-200 text-secondary px-4 py-2 rounded-lg text-sm font-bold shadow-sm transition-all"
+        >
+            <span
+                class="sort-icon inline-block text-accent text-lg transition-transform duration-300"
+                >↓</span
+            >
+            <span class="sort-text">Neueste zuerst</span>
+        </button>
+    </div>
+
+    <div class="absolute left-12 md:left-1/2 top-24 bottom-0 w-0.5 bg-muted/30 transform md:-translate-x-1/2"></div>
+
+    <div class="timeline-container space-y-12">
+        {
+            sortedEntries.map((item, index) => {
+                const isLeft = index % 2 === 0;
+                return (
+                    <div
+                        data-is-left={isLeft.toString()}
+                        class={`timeline-item relative flex flex-col md:flex-row items-start ${isLeft ? "md:flex-row-reverse" : ""}`}
+                    >
+                        <TimelineEntryCard
+                            data={item}
+                            iconMap={iconMap}
+                            isLeft={isLeft}
+                            imageRatio={imageRatio}
+                        />
+                    </div>
+                );
+            })
+        }
+    </div>
+</div>
+
+<script>
+    const roots = document.querySelectorAll(".timeline-root");
+
+    roots.forEach((root) => {
+        if (!(root instanceof HTMLElement)) return;
+        if (root.dataset.timelineSortInitialized === "true") return;
+        root.dataset.timelineSortInitialized = "true";
+
+        const toggleBtn = root.querySelector(
+            ".sort-toggle",
+        ) as HTMLElement | null;
+        const container = root.querySelector(
+            ".timeline-container",
+        ) as HTMLElement | null;
+        const sortText = root.querySelector(".sort-text") as HTMLElement | null;
+        const sortIcon = root.querySelector(".sort-icon") as HTMLElement | null;
+
+        let isDescending = true;
+
+        if (toggleBtn && container && sortText && sortIcon) {
+            toggleBtn.addEventListener("click", () => {
+                isDescending = !isDescending;
+
+                // Update UI state
+                sortText.textContent = isDescending
+                    ? "Neueste zuerst"
+                    : "Älteste zuerst";
+                sortIcon.style.transform = isDescending
+                    ? "rotate(0deg)"
+                    : "rotate(180deg)";
+
+                // Reverse Elements
+                const items = Array.from(container.children) as HTMLElement[];
+                const fragment = document.createDocumentFragment();
+
+                items.reverse();
+
+                // Re-append which moves it internally
+                items.forEach((item) => {
+                    fragment.appendChild(item);
+                });
+                container.appendChild(fragment);
+            });
+        }
+    });
+</script>

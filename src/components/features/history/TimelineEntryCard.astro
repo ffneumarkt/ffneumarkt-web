@@ -1,0 +1,97 @@
+---
+import { Image } from "astro:assets";
+import type {
+    TimelineEntry,
+    TimelineEntryIconMap,
+    ImageRatio,
+} from "@/components/features/history/types";
+
+interface Props {
+    data: TimelineEntry;
+    isLeft: boolean;
+    iconMap?: TimelineEntryIconMap;
+    imageRatio: ImageRatio;
+}
+
+const { data, isLeft, iconMap, imageRatio } = Astro.props;
+
+const iconSvg: string | undefined = data.icon
+    ? iconMap?.[data.icon]
+    : undefined;
+const spacerOffsetClass = data.icon ? "" : isLeft ? "-ml-6 md:-mr-6" : "-ml-6";
+const imageRatioClass = imageRatio === "aspect-[3/4]" ? "xl:w-1/3" : "";
+const imageSizes =
+    imageRatio === "aspect-[3/4]"
+        ? "(min-width: 1280px) 28vw, (min-width: 768px) 40vw, 100vw"
+        : "(min-width: 1280px) 42vw, (min-width: 768px) 45vw, 100vw";
+const imageWidths =
+    imageRatio === "aspect-[3/4]"
+        ? [360, 480, 640, 800, 1024]
+        : [480, 640, 800, 1024, 1366, 1600];
+---
+
+{/* ICON BUBBLE */}
+{
+    iconSvg && (
+        <div
+            class="absolute top-2 left-4 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full bg-accent-vivid border-4 border-white shadow-lg z-10 overflow-hidden"
+            aria-hidden="true"
+        >
+            <div
+                class="w-7 h-7 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full"
+                set:html={iconSvg}
+            />
+        </div>
+    )
+}
+
+{/* SPACER */}
+<div class="w-full md:w-1/2"></div>
+
+{/* CONTENT CARD */}
+<div
+    class={`w-full md:w-1/2 pl-16 md:pl-0 ${spacerOffsetClass} ${imageRatioClass}`}
+>
+    <div
+        class={`group bg-white p-6 rounded-xl border border-slate-100 card-interactive relative ${isLeft ? "md:mr-12" : "md:ml-12"}`}
+    >
+        {/* Arrow */}
+        <div
+            class={`absolute top-6 w-4 h-4 bg-white transform rotate-45 -left-2 ${isLeft ? "md:left-auto md:-right-2" : ""}`}
+        >
+        </div>
+
+        <span
+            class="inline-block px-2 py-1 bg-accent-bg text-accent-text text-xs font-bold rounded mb-2"
+        >
+            {data.badge}
+        </span>
+
+        <h3 class="text-xl font-bold text-primary mb-2 hyphens-auto">
+            {data.title}
+        </h3>
+
+        {
+            data.description && (
+                <p
+                    class="text-secondary text-sm whitespace-pre-wrap leading-relaxed mb-4"
+                    set:text={data.description.trim()}
+                />
+            )
+        }
+
+        {
+            data.image && (
+                <div class="rounded-lg overflow-hidden mt-4 shadow-inner border border-slate-100">
+                    <Image
+                        src={data.image}
+                        alt={data.title}
+                        widths={imageWidths}
+                        sizes={imageSizes}
+                        class={`w-full object-cover image-interactive ${imageRatio}`}
+                    />
+                </div>
+            )
+        }
+    </div>
+</div>

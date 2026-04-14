@@ -1,0 +1,9 @@
+name: Franz Seiler
+image: '@/assets/commanders/franz-seiler/image.jpeg'
+dob: 1854-02-11
+dod: 1933-12-15
+servicePeriods:
+  - startYear: 1893
+    endYear: 1906
+  - startYear: 1909
+    endYear: 1912

@@ -1,0 +1,51 @@
+heroKicker: Freiwillig. Professionell.
+heroTagline: 24 Stunden am Tag, 365 Tage im Jahr fuer Ihre Sicherheit im Einsatz.
+heroImages:
+  - image: '@/assets/hero/heroImages/0/image.jpg'
+    alt: Gruppenfoto
+  - image: '@/assets/hero/heroImages/1/image.jpeg'
+    alt: Brandbekämpfung Schaum PKW
+  - image: '@/assets/hero/heroImages/2/image.jpg'
+    alt: Brandbekämpfung LUF Landwirtschaftliches Objekt
+  - image: '@/assets/hero/heroImages/3/image.jpeg'
+    alt: LKW Bergung
+  - image: '@/assets/hero/heroImages/4/image.jpeg'
+    alt: Brandbekämpfung PKW
+  - image: '@/assets/hero/heroImages/5/image.jpeg'
+    alt: Brandbekämpfung Garagenbrand
+journeyHeroInfoBlocks:
+  - image: '@/assets/hero/journeyHeroInfoBlocks/0/image.jpg'
+    imageAlt: Gruppenfoto
+    kicker: Unsere Mannschaft
+    title: Menschen aus der Mitte der Gesellschaft
+    description: Wir sind Nachbarn, Freunde und Kollegen, die 365 Tage im Jahr bereitstehen
+    link: /mannschaft
+  - image: '@/assets/hero/journeyHeroInfoBlocks/1/image.jpg'
+    imageAlt: Fahrzeugfoto KDOF, RLF und LAST
+    kicker: Technik & Fahrzeuge
+    title: Ausrüstung für jeden Einsatzzweck
+    description: >-
+      Ob Brand, Bergung oder technische Hilfeleistung. Mit unserer Ausrüstung
+      sind wir für viele Einsatzlagen bestens gerüstet
+    link: /fahrzeuge
+  - image: '@/assets/hero/journeyHeroInfoBlocks/2/image.JPEG'
+    imageAlt: Gruppenfoto Gründungsmitglieder
+    kicker: Chronik & Geschichte
+    title: Im Wandel der Zeit
+    description: >-
+      Ein Blick auf unsere vergangenen Kommandanten und die Entwicklung der
+      Feuerwehr
+    link: /geschichte
+journeyHeroFactBlocks:
+  - title: Einsatzbereit
+    description: Rund um die Uhr an 365 Tagen
+  - title: Fuhrpark
+    description: Modernste Spezialfahrzeuge für jeden Ernstfall
+  - title: Aktive Mannschaft
+    description: Über 100 ehrenamtliche Mitglieder im Einsatz
+  - title: Gründungsjahr
+    description: Gegründet 1891 zum Schutz der Gemeinde
+  - title: Ausbildung
+    description: Regelmäßige Übungen und Schulungen
+  - title: Ausrüstung
+    description: Moderne Technik für sichere Einsätze

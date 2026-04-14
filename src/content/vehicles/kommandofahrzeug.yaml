@@ -1,0 +1,21 @@
+name: Kommandofahrzeug
+tacticalName: KDOF
+gallery:
+  - '@/assets/vehicles/kommandofahrzeug/gallery/0.jpg'
+  - '@/assets/vehicles/kommandofahrzeug/gallery/1.jpeg'
+  - '@/assets/vehicles/kommandofahrzeug/gallery/2.jpeg'
+  - '@/assets/vehicles/kommandofahrzeug/gallery/3.jpg'
+  - '@/assets/vehicles/kommandofahrzeug/gallery/4.jpg'
+sortOrder: 1
+specs:
+  power: 110kW (150PS)
+  weight: 3 450 kg
+  crew: '1 : 8'
+  construction: '2016'
+  manufacturer: VW
+details:
+  - amount: 2 Stück
+    item: Digitale Fahrzeugfunkgeräte
+  - amount: 1 Stück
+    item: 70cm Fahrzeugfunk
+  - item: Whiteboard

@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/shared/heading/PageHeader.astro";
+import LinkCard from "@/components/shared/cards/LinkCard.astro";
+import { formatAddressMultiline } from "@/utils/address";
+import { getEntryOrThrow } from "@/utils/entry";
+
+export const prerender = true;
+
+const settings = await getEntryOrThrow("settings", "data");
+const addressText = formatAddressMultiline(settings.data.address);
+---
+
+<Layout title="Kontakt">
+    <div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+        <PageHeader
+            heading="Kontakt"
+            subtext="Haben Sie Fragen oder möchten Sie Teil unserer Kameradschaft werden? Wir sind gerne für Sie erreichbar."
+        />
+        <div class="bg-white rounded-2xl p-8 text-center mb-12">
+            <h2 class="font-bold text-primary mb-2">
+                🚨 Im Notfall immer {settings.data.emergencyNumber} wählen!
+            </h2>
+            <p class="text-secondary text-sm">
+                Folgende Kontaktmöglichkeiten sind nicht für Notfallmeldungen
+                geeignet.
+            </p>
+        </div>
+
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <LinkCard
+                    icon="📞"
+                    title="Telefon"
+                    subtext="Dringliche Anliegen\nKommandant"
+                    href={"tel:" + settings.data.phone}
+                    linkDescription={settings.data.phone}
+                    largeLink
+                />
+                <LinkCard
+                    icon="✉️"
+                    title="E-Mail"
+                    subtext="Anfragen & Informationen"
+                    href={"mailto:" + settings.data.email}
+                    linkDescription={settings.data.email}
+                    largeLink
+                />
+                <LinkCard
+                    icon="📍"
+                    title="Standort"
+                    subtext={addressText}
+                    href={settings.data.mapsUrl}
+                    linkDescription="Google-Maps"
+                    largeLink
+                    openInNewTab
+                />
+            </div>
+        </div>
+    </div>
+</Layout>

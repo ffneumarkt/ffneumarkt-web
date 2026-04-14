@@ -1,0 +1,7 @@
+name: Josef Ruhsam
+image: '@/assets/commanders/josef-ruhsam/image.jpeg'
+dob: 1922-02-27
+dod: 1987-12-13
+servicePeriods:
+  - startYear: 1953
+    endYear: 1960

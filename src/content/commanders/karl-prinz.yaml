@@ -1,0 +1,7 @@
+name: Karl Prinz
+image: '@/assets/commanders/karl-prinz/image.jpeg'
+dob: 1951-01-28
+dod: 2015-03-27
+servicePeriods:
+  - startYear: 1988
+    endYear: 1998

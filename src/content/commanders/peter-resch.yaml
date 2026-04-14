@@ -1,0 +1,6 @@
+name: Peter Resch
+image: '@/assets/commanders/peter-resch/image.jpg'
+dob: 1977-02-01
+servicePeriods:
+  - startYear: 2008
+    endYear: 2023

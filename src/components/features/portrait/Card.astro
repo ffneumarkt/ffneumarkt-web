@@ -1,0 +1,81 @@
+---
+import Placeholder from "@/components/features/portrait/Placeholder.astro";
+import Image from "astro/components/Image.astro";
+
+export interface PortraitData {
+    name: string;
+    rank: string;
+    role?: string;
+    photo?: {
+        src: string;
+        width: number;
+        height: number;
+        format:
+            | "png"
+            | "jpg"
+            | "jpeg"
+            | "tiff"
+            | "webp"
+            | "gif"
+            | "svg"
+            | "avif";
+    };
+}
+
+interface Props {
+    data: PortraitData;
+    teamPhotoWidths?: number[];
+    teamPhotoSizes?: string;
+    isRoleDisplayed?: boolean;
+}
+
+const {
+    data,
+    teamPhotoWidths = [240, 320, 480, 640, 800],
+    teamPhotoSizes = "(min-width: 1024px) 22vw, (min-width: 768px) 30vw, 48vw",
+    isRoleDisplayed = true,
+} = Astro.props;
+---
+
+<div
+    class="bg-white rounded-lg border border-gray-100 text-center group card-interactive overflow-hidden"
+>
+    <div class="aspect-3/4 bg-gray-100 rounded-t-lg">
+        {
+            data.photo ? (
+                <Image
+                    src={data.photo}
+                    alt={data.name}
+                    widths={teamPhotoWidths}
+                    sizes={teamPhotoSizes}
+                    class="object-cover w-full h-full default-image-animation"
+                />
+            ) : (
+                <Placeholder />
+            )
+        }
+    </div>
+
+    <div class="p-3 md:p-4 rounded-b-lg">
+        <div
+            class="text-accent font-bold text-[10px] md:text-xs tracking-wide mb-1 hyphens-auto wrap-break-word"
+            lang="de"
+        >
+            {data.rank}
+        </div>
+
+        <h3
+            class="font-bold text-primary text-base md:text-lg leading-tight mb-1 hyphens-auto"
+        >
+            {data.name}
+        </h3>
+
+        {
+            isRoleDisplayed && data.role && (
+                <p class="text-xs md:text-sm text-secondary italic border-t border-gray-100 pt-2 mt-2 inline-block px-1 whitespace-pre-line leading-snug">
+                    {data.role}
+                </p>
+            )
+        }
+    </div>
+</div>

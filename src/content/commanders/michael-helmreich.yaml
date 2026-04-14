@@ -1,0 +1,7 @@
+name: Michael Helmreich
+image: '@/assets/commanders/michael-helmreich/image.jpeg'
+dob: 1851-03-31
+dod: 1898-12-14
+servicePeriods:
+  - startYear: 1891
+    endYear: 1893

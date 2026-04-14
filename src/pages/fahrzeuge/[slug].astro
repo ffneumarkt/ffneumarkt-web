@@ -1,0 +1,135 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import VehicleCarousel from "@/components/features/vehicles/VehicleCarousel.astro";
+import DefinitionRow from "@/components/features/vehicles/DefinitionRow.astro";
+import { getEntryOrThrow } from "@/utils/entry";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+if (!slug) {
+    return Astro.redirect("/404");
+}
+
+const entry = await getEntryOrThrow("vehicles", slug);
+---
+
+<Layout title={entry.data.name}>
+    <div
+        id="mobile-tactical-name-sticky"
+        class="container mx-auto py-2 -mt-8 sticky top-20 bg-global-bg/80 backdrop-blur-md z-30 px-4 md:hidden"
+        aria-hidden="true"
+    >
+        <span
+            class="inline-block py-1 px-3 rounded bg-accent text-on-accent text-xs font-bold tracking-widest uppercase mx-4"
+        >
+            {entry.data.tacticalName}
+        </span>
+    </div>
+
+    <div class="p-4 bg-dark-bg text-white -mt-10 relative z-30">
+        <div class="container mx-auto">
+            <div class="pb-2 md:pt-2">
+                <a
+                    href="/fahrzeuge"
+                    class="inline-flex items-center text-dark-secondary hover:text-dark-primary text-sm font-bold tracking-wide transition-colors mx-4"
+                >
+                    ← ZURÜCK ZUR ÜBERSICHT
+                </a>
+            </div>
+            <div class="py-1">
+                <span
+                    class="inline-block py-1 px-3 rounded bg-accent text-on-accent text-xs font-bold tracking-widest uppercase mx-4"
+                >
+                    {entry.data.tacticalName}
+                </span>
+            </div>
+            <div class="py-1">
+                <h1
+                    class="text-3xl lg:text-4xl text-dark-primary font-extrabold tracking-tight mx-4 wrap-break-words hyphens-auto"
+                >
+                    {entry.data.name}
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-7">
+                <div
+                    class="bg-white p-2 rounded-xl border border-gray-100 shadow-xl shadow-slate-200/40"
+                >
+                    {
+                        entry.data.gallery && entry.data.gallery.length > 0 ? (
+                            <VehicleCarousel images={entry.data.gallery} />
+                        ) : (
+                            <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 font-medium">
+                                Kein Bild vorhanden
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 space-y-8">
+                <div
+                    class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow"
+                >
+                    <h3
+                        class="font-bold text-primary text-lg mb-4 flex items-center gap-2"
+                    >
+                        ⚙️ Technische Daten
+                    </h3>
+                    <dl class="space-y-3 text-sm">
+                        <DefinitionRow label="Leistung"
+                            >{entry.data.specs?.power || "-"}</DefinitionRow
+                        >
+                        <DefinitionRow label="Gewicht"
+                            >{entry.data.specs?.weight || "-"}</DefinitionRow
+                        >
+                        <DefinitionRow label="Baujahr"
+                            >{
+                                entry.data.specs?.construction || "-"
+                            }</DefinitionRow
+                        >
+                        <DefinitionRow label="Hersteller"
+                            >{
+                                entry.data.specs?.manufacturer || "-"
+                            }</DefinitionRow
+                        >
+                        <DefinitionRow label="Besatzung" last
+                            >{entry.data.specs?.crew || "-"}</DefinitionRow
+                        >
+                    </dl>
+                </div>
+
+                {
+                    entry.data.details.length > 0 && (
+                        <div
+                            class="prose prose-slate prose-red max-w-none ml-2 text-primary
+                                [&_td:nth-child(1)]:w-auto [&_td:nth-child(1)]:text-right
+                                [&_td:nth-child(2)]:w-2
+                                [&_td:nth-child(3)]:w-auto"
+                        >
+                            <h3 class="text-xl font-bold text-primary mb-2 -ml-2">
+                                Details & Beladung
+                            </h3>
+                            <table class="table-auto w-auto max-w-full ml-0 mr-auto">
+                                <tbody>
+                                    {entry.data.details.map((detail) => (
+                                        <tr>
+                                            <td>{detail.amount || ""}</td>
+                                            <td />
+                                            <td>{detail.item}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )
+                }
+            </div>
+        </div>
+    </div>
+</Layout>

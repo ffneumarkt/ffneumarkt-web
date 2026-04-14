@@ -1,0 +1,30 @@
+name: Tanklöschfahrzeug
+tacticalName: TLF-A 2000
+gallery:
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/0.jpeg'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/1.jpg'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/2.png'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/3.jpg'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/4.jpg'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/5.jpeg'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/6.jpg'
+  - '@/assets/vehicles/tankloeschfahrzeug/gallery/7.JPG'
+sortOrder: 3
+specs:
+  power: 177kW (240PS)
+  weight: 13 500 kg
+  crew: '1 : 2'
+  construction: '1999'
+  manufacturer: Mercedes-Benz
+details:
+  - amount: 2 000 Liter
+    item: Wassertank
+  - amount: 60 Liter
+    item: Schaumkanister
+  - amount: 90 Meter
+    item: HD-Haspel
+  - amount: 60 Meter
+    item: HD-Haspel
+  - amount: 11 kVA
+    item: Stromerzeuger
+  - item: Leichtschaumgenerator

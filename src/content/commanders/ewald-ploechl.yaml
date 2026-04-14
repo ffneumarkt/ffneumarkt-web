@@ -1,0 +1,7 @@
+name: Ewald Plöchl
+image: '@/assets/commanders/ewald-ploechl/image.jpeg'
+dob: 1944-10-12
+dod: 2026-03-01
+servicePeriods:
+  - startYear: 1973
+    endYear: 1988

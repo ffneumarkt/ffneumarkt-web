@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import Timeline from "@/components/features/history/Timeline.astro";
+import type { TimelineEntry } from "@/components/features/history/types";
+
+const rawEntries = await getCollection("commanders");
+
+const formatDate = (date: Date | undefined) => {
+    if (!date) return;
+    return date.toLocaleDateString("de-AT", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+    });
+};
+
+const entries: TimelineEntry[] = rawEntries
+    .flatMap((commander) => {
+        const birth = formatDate(commander.data.dob);
+        const death = formatDate(commander.data.dod);
+
+        const badgeText = commander.data.servicePeriods
+            .map((p) => `${p.startYear} - ${p.endYear ?? "Heute"}`)
+            .join(", ");
+
+        return commander.data.servicePeriods.map((period) => ({
+            // Use the specific start year of THIS period for sorting
+            comparable: period.startYear,
+            badge: badgeText,
+            title: commander.data.name,
+            description: death ? `* ${birth}   † ${death}` : `* ${birth}`,
+            image: commander.data.image,
+        }));
+    })
+    // Sort the entire flattened list by the specific period's start year
+    .sort((a, b) => b.comparable - a.comparable);
+---
+
+<Timeline entries={entries} imageRatio="aspect-[3/4]" />

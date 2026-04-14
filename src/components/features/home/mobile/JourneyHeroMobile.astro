@@ -1,0 +1,41 @@
+---
+import GridBlocks from "../GridBlocks";
+import HeroTextBlock from "../HeroTextBlock.astro";
+import type { JourneyHeroContext } from "../types";
+
+const { heroKicker, fireBrigadeName, location, heroTagline, galleryItems } =
+  Astro.props as JourneyHeroContext;
+---
+
+<div class="container mx-auto flex flex-col gap-10 lg:hidden">
+  <div class="w-full flex justify-center">
+    <div class="w-full max-w-[62vh]">
+      <div class="grid grid-cols-3 gap-4">
+        {
+          GridBlocks.map((block, index) => {
+            const image = galleryItems[index]!;
+            const isWide = block.position.includes("col-span-2");
+            return (
+              <div
+                class={`${block.position} ${isWide ? "aspect-video" : ""} relative overflow-hidden rounded-2xl shadow-lg shadow-red-900/10 ring-1 ring-white/70`}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  class="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+
+  <HeroTextBlock
+    heroKicker={heroKicker}
+    fireBrigadeName={fireBrigadeName}
+    location={location}
+    heroTagline={heroTagline}
+  />
+</div>

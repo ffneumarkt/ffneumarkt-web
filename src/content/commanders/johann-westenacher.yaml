@@ -1,0 +1,9 @@
+name: Johann Westenacher
+image: '@/assets/commanders/johann-westenacher/image.jpeg'
+dob: 1884-03-03
+dod: 1952-04-09
+servicePeriods:
+  - startYear: 1912
+    endYear: 1928
+  - startYear: 1934
+    endYear: 1935

@@ -1,0 +1,7 @@
+name: Michael Rabmer
+image: '@/assets/commanders/michael-rabmer/image.jpeg'
+dob: 1915-08-22
+dod: 2001-12-17
+servicePeriods:
+  - startYear: 1960
+    endYear: 1973

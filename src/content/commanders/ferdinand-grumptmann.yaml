@@ -1,0 +1,7 @@
+name: Ferdinand Grumptmann
+image: '@/assets/commanders/ferdinand-grumptmann/image.jpeg'
+dob: 1866-03-14
+dod: 1934-03-05
+servicePeriods:
+  - startYear: 1906
+    endYear: 1909

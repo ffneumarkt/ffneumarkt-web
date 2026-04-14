@@ -1,0 +1,6 @@
+name: Wilhelm Rauch
+image: '@/assets/commanders/wilhelm-rauch/image.jpg'
+dob: 1950-01-15
+servicePeriods:
+  - startYear: 1998
+    endYear: 2008

@@ -1,0 +1,100 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageTitle from "@/components/shared/heading/PageTitle.astro";
+import SectionTitle from "@/components/shared/heading/SectionTitle.astro";
+import { getEntryOrThrow } from "@/utils/entry";
+import { formatAddressMultiline } from "@/utils/address";
+import {
+    formatLongFireBrigadeName,
+    formatShortFireBrigadeName,
+} from "@/utils/fireBrigadeName";
+import InlineLink from "@/components/shared/link/InlineLink.astro";
+
+export const prerender = true;
+
+const settings = await getEntryOrThrow("settings", "data");
+const fireBrigadeName = formatLongFireBrigadeName(
+    settings.data.fireBrigadeName,
+);
+const fireBrigadeShortName = formatShortFireBrigadeName(
+    settings.data.fireBrigadeName,
+);
+
+const addressText = formatAddressMultiline(settings.data.address);
+const legalAddress = `${fireBrigadeName}\n${addressText}`;
+const municipality = settings.data.address.town;
+---
+
+<Layout title="Impressum">
+    <div class="max-w-3xl mx-auto prose prose-red px-4">
+        <PageTitle>Impressum</PageTitle>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6"
+            >Für den Inhalt verantwortlich</SectionTitle
+        >
+        <p class="mb-4">
+            {settings.data.siteResponsible}<br />
+            Feuerwehrkommandant<br />
+        </p>
+        <p class="whitespace-pre-line">{legalAddress}</p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6"
+            >Erreichbarkeit</SectionTitle
+        >
+        <p class="mb-4">
+            Sie können jederzeit per E-Mail an <InlineLink
+                href={"mailto:" + settings.data.email}
+                >{settings.data.email}</InlineLink
+            > Kontakt aufnehmen. Darüber hinaus besteht die Möglichkeit, telefonisch
+            mit {settings.data.siteResponsible} unter der Nummer <InlineLink
+                href={"tel:" + settings.data.phone}
+                >{settings.data.phone}</InlineLink
+            > in Kontakt zu treten. Weitere Informationen sind auf der <InlineLink
+                href="/kontakt/">Kontaktseite</InlineLink
+            > zu finden.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6"
+            >Copyright</SectionTitle
+        >
+        <p>
+            Alle Bilder urheberrechtlich geschützt durch die {fireBrigadeName}.
+            Eine Weiterverwendung ohne vorheriger Zustimmung ist nicht
+            gestattet.
+        </p>
+
+        <SectionTitle size="sm" additionalClasses="mb-4 mt-6"
+            >Haftungsausschluss</SectionTitle
+        >
+        <p class="mb-4">
+            Die {fireBrigadeName} ist bemüht, richtige und vollständige Informationen
+            auf dieser Website bereitzustellen, übernimmt aber keinerlei Verantwortung,
+            Garantien oder Haftung dafür, dass die durch diese Website bereitgestellten
+            Informationen, einschließlich jeglicher Datenbankeinträge, richtig, vollständig
+            oder aktuell sind.
+        </p>
+        <p class="mb-4">
+            Die {fireBrigadeName} behält sich das Recht vor, jederzeit und ohne Vorankündigung
+            die Informationen auf dieser Website zu ändern und verpflichtet sich auch
+            nicht, die enthaltenen Informationen zu aktualisieren. Die Hypertext-Links
+            sind ausschließlich als Vereinfachung für die Benutzer gedacht und die
+            Aufnahme eines beliebigen Links bedeutet keine Unterstützung oder Empfehlung
+            der verlinkten Information durch die {fireBrigadeShortName} und spiegelt
+            nicht die Meinung der Feuerwehr wider. Die Feuerwehr ist in keiner Weise
+            verantwortlich für die Inhalte auf irgendeiner verlinkten Website oder
+            irgendeinem Link in einer verlinkten Website.
+        </p>
+        <p>
+            In keinem Fall kann die {fireBrigadeName} bzw. die Gemeinde {
+                municipality
+            }
+            für Schäden irgendeiner Art haftbar gemacht werden, die sich aus der Nutzung
+            oder den Inhalten oder der Verfügbarkeit dieser Website, oder den Dokumenten,
+            Diensten und Informationen auf dieser Website ergeben könnten. Dabei ist
+            es gleichgültig, ob der Schaden direkter, indirekter oder finanzieller
+            Natur ist, oder es sich um einen Folgeschaden bzw. sonstigen Schaden handelt,
+            der sich aus Datenverlust, Nutzungsausfall oder sonstigen Gründen aller
+            Art ergeben könnte.
+        </p>
+    </div>
+</Layout>

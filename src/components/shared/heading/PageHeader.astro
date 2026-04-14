@@ -1,0 +1,18 @@
+---
+interface Props {
+    heading: string;
+    subtext: string;
+}
+const { heading, subtext } = Astro.props;
+---
+
+<div class="text-center mb-10 md:mb-16 px-4">
+    <h1 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight hyphens-auto">
+        {heading}
+    </h1>
+    <p
+        class="text-lg md:text-xl text-primary max-w-2xl mx-auto leading-relaxed"
+    >
+        {subtext}
+    </p>
+</div>

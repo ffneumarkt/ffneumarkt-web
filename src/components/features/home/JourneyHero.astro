@@ -1,0 +1,56 @@
+---
+import JourneyHeroDesktop from "./desktop/JourneyHeroDesktop.astro";
+import JourneyHeroMobile from "./mobile/JourneyHeroMobile.astro";
+import InfoTextBlock from "./InfoTextBlock.astro";
+import type {
+  FactBlock,
+  GalleryImage,
+  InfoBlock,
+  JourneyHeroContext,
+} from "./types";
+
+type JourneyHeroProps = {
+  fireBrigadeName: string;
+  location: string;
+  heroTagline: string;
+  heroKicker: string;
+  collageImages: GalleryImage[];
+  infoBlocks: InfoBlock[];
+  factBlocks: FactBlock[];
+};
+
+const {
+  fireBrigadeName,
+  location,
+  heroTagline,
+  heroKicker,
+  collageImages,
+  infoBlocks,
+  factBlocks,
+} = Astro.props as JourneyHeroProps;
+
+const galleryItems = collageImages.slice(0, 6);
+const context: JourneyHeroContext = {
+  heroKicker,
+  fireBrigadeName,
+  location,
+  heroTagline,
+  galleryItems,
+  infoBlocks,
+  factBlocks,
+};
+---
+
+<section
+  id="journey-start"
+  class="relative overflow-hidden text-slate-900 px-6"
+>
+  <JourneyHeroMobile {...context} />
+  <JourneyHeroDesktop {...context} />
+
+  <div class="container mx-auto mt-16 pb-16 space-y-12 max-w-6xl">
+    {infoBlocks.map((block) => {
+      return <InfoTextBlock block={block} image={block.image} />;
+    })}
+  </div>
+</section>
