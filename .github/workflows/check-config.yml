@@ -1,23 +1,39 @@
-name: Check Wrangler Config Name
+name: Check Config Names
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+      - demo
 
 jobs:
-  verify-name:
+  verify-configs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set expected variables based on branch
+        run: |
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            echo "EXPECTED_WRANGLER_NAME=ffneumarkt-web" >> $GITHUB_ENV
+            echo "EXPECTED_ASTRO_SITE=https://ffneumarkt.at" >> $GITHUB_ENV
+          elif [ "${{ github.ref_name }}" = "demo" ]; then
+            echo "EXPECTED_WRANGLER_NAME=demo-ffneumarkt-web" >> $GITHUB_ENV
+            echo "EXPECTED_ASTRO_SITE=https://demo.ffneumarkt.at" >> $GITHUB_ENV
+          else
+            echo "Branch not configured for validation."
+            exit 1
+          fi
+
       - name: Verify "name" in wrangler.jsonc
         run: |
           node -e "
             const fs = require('fs');
+            const expectedName = process.env.EXPECTED_WRANGLER_NAME;
+            
             try {
               const content = fs.readFileSync('wrangler.jsonc', 'utf8');
-              // Matches 'name' as a key, ignoring potential whitespace
               const match = content.match(/\"name\"\s*:\s*\"([^\"]+)\"/);
               
               if (!match) {
@@ -27,29 +43,26 @@ jobs:
               
               const name = match[1];
               
-              if (name !== 'ffneumarkt-web') {
+              if (name !== expectedName) {
                 console.error('\nValidation Failed!');
-                console.error('Expected: \"name\": \"ffneumarkt-web\"');
+                console.error('Expected: \"name\": \"' + expectedName + '\"');
                 console.error('Found:    \"name\": \"' + name + '\"');
                 process.exit(1);
               }
               
-              console.log('Validation Passed! Name is correctly set to ffneumarkt-web.');
+              console.log('Validation Passed! Name is correctly set to ' + expectedName + '.');
             } catch (err) {
               console.error('Error reading file:', err.message);
               process.exit(1);
             }
           "
-  verify-astro-site:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
       - name: Verify "site" in astro.config.mjs
         run: |
           node -e "
             const fs = require('fs');
+            const expectedSite = process.env.EXPECTED_ASTRO_SITE;
+            
             try {
               const content = fs.readFileSync('astro.config.mjs', 'utf8');
               const inlineMatch = content.match(/\\bsite\\s*:\\s*['\\\"]([^'\\\"]+)['\\\"]/);
@@ -64,14 +77,14 @@ jobs:
                 process.exit(1);
               }
 
-              if (site !== 'https://ffneumarkt.at') {
+              if (site !== expectedSite) {
                 console.error('\\nValidation Failed!');
-                console.error('Expected: site: \"https://ffneumarkt.at\"');
+                console.error('Expected: site: \"' + expectedSite + '\"');
                 console.error('Found:    site: \"' + site + '\"');
                 process.exit(1);
               }
               
-              console.log('Validation Passed! site is correctly set to https://ffneumarkt.at.');
+              console.log('Validation Passed! site is correctly set to ' + expectedSite + '.');
             } catch (err) {
               console.error('Error reading file:', err.message);
               process.exit(1);
