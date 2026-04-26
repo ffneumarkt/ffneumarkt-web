@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 import keystatic from '@keystatic/astro';
 import { getVehicleSitemapUrls } from './src/config/vehicleSitemapUrls.ts';
 
-const site = 'https://ffneumarkt.at';
+const site = 'https://demo.ffneumarkt.at';
 
 export default defineConfig({
   site,
