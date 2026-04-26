@@ -26,6 +26,7 @@ jobs:
           fi
 
           echo "Target branch resolved to: $TARGET_BRANCH"
+          echo "TARGET_BRANCH=$TARGET_BRANCH" >> $GITHUB_ENV
 
           if [ "$TARGET_BRANCH" = "master" ]; then
             echo "EXPECTED_WRANGLER_NAME=ffneumarkt-web" >> $GITHUB_ENV
@@ -97,6 +98,32 @@ jobs:
               }
               
               console.log('Validation Passed! site is correctly set to ' + expectedSite + '.');
+            } catch (err) {
+              console.error('Error reading file:', err.message);
+              process.exit(1);
+            }
+          "
+
+      - name: Verify canonical URL is present in Layout.astro
+        run: |
+          node -e "
+            const fs = require('fs');
+
+            try {
+              const content = fs.readFileSync('src/layouts/Layout.astro', 'utf8');
+              const canonicalTag = '<link rel=\"canonical\" href=\"https://ffneumarkt.at\" />';
+
+              if (process.env.TARGET_BRANCH !== 'master' && !content.includes(canonicalTag)) {
+                console.error('Error: Layout.astro must include the canonical link for any non master branch.');
+                process.exit(1);
+              }
+
+              if (process.env.TARGET_BRANCH === 'master' && content.includes(canonicalTag)) {
+                console.error('Error: Layout.astro must not include the canonical link for master branch.');
+                process.exit(1);
+              }
+
+              console.log('Validation Passed! Canonical link is present in Layout.astro.');
             } catch (err) {
               console.error('Error reading file:', err.message);
               process.exit(1);
