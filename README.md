@@ -1,6 +1,6 @@
 # FF Neumarkt Website
 
-Current project documentation for the FF Neumarkt public website.
+Current project documentation for the FF Neumarkt public website
 
 ## Scope
 
@@ -35,7 +35,7 @@ Current project documentation for the FF Neumarkt public website.
 
 ## Content and CMS model
 
-Content is file-based under `src/content` and media under `src/assets`.
+Content is file-based under `src/content` and media under `src/assets`
 
 - Singleton: `settings` (`src/content/settings/data.yaml`)
   - emergency number, phone, email, social links, address
@@ -50,14 +50,14 @@ Content is file-based under `src/content` and media under `src/assets`.
 - Collection: `commanders` (`src/content/commanders/*.yaml`)
   - name, image, DOB/DOD, service periods
 
-Keystatic is configured with `storage.kind = "local"` and is only integrated when `NODE_ENV !== "production"`.
+Keystatic is configured with `storage.kind = "local"` and is only integrated when `NODE_ENV !== "production"`
 
 ## Homepage data flow (`src/pages/index.astro`)
 
-- The homepage composes `JourneyHero` and prepares its media data at build time.
-- `landingPage.data.heroImages` is sliced to 6 items for the collage and optimized via `astro:assets`.
-- The collage images are passed with `{ src, alt }` so the hero can render accessible alt text.
-- `JourneyHero` is an Astro component rendered on the server without client hydration.
+- The homepage composes `JourneyHero` and prepares its media data at build time
+- `landingPage.data.heroImages` is sliced to 6 items for the collage and optimized via `astro:assets`
+- The collage images are passed with `{ src, alt }` so the hero can render accessible alt text
+- `JourneyHero` is an Astro component rendered on the server without client hydration
 - `JourneyHero` renders static info/fact content
 
 ## Local development
@@ -98,8 +98,8 @@ make sync
 
 Notes:
 
-- Keystatic admin UI is available in non-production runs.
-- Path alias `@/` maps to `src/`.
+- Keystatic admin UI is available in non-production runs
+- Path alias `@/` maps to `src/`
 
 ## Build and deploy
 
@@ -118,4 +118,4 @@ npx wrangler deploy
 Important:
 
 - Cloudflare adapter enables session support and expects KV binding `SESSION`
-- PR workflow `.github/workflows/check-wrangler.yml` validates that `wrangler.jsonc` name is `ffneumarkt`.
+- PR workflow `.github/workflows/check-wrangler.yml` validates that `wrangler.jsonc` name is `ffneumarkt`
