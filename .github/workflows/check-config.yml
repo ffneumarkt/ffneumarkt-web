@@ -5,6 +5,10 @@ on:
     branches:
       - master
       - demo
+  pull_request:
+    branches:
+      - master
+      - demo
 
 jobs:
   verify-configs:
@@ -13,16 +17,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set expected variables based on branch
+      - name: Determine branch and set variables
         run: |
-          if [ "${{ github.ref_name }}" = "master" ]; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            TARGET_BRANCH="${{ github.base_ref }}"
+          else
+            TARGET_BRANCH="${{ github.ref_name }}"
+          fi
+
+          echo "Target branch resolved to: $TARGET_BRANCH"
+
+          if [ "$TARGET_BRANCH" = "master" ]; then
             echo "EXPECTED_WRANGLER_NAME=ffneumarkt-web" >> $GITHUB_ENV
             echo "EXPECTED_ASTRO_SITE=https://ffneumarkt.at" >> $GITHUB_ENV
-          elif [ "${{ github.ref_name }}" = "demo" ]; then
+          elif [ "$TARGET_BRANCH" = "demo" ]; then
             echo "EXPECTED_WRANGLER_NAME=demo-ffneumarkt-web" >> $GITHUB_ENV
             echo "EXPECTED_ASTRO_SITE=https://demo.ffneumarkt.at" >> $GITHUB_ENV
           else
-            echo "Branch not configured for validation."
+            echo "Branch $TARGET_BRANCH not configured for validation."
             exit 1
           fi
 
