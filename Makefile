@@ -1,4 +1,4 @@
-.PHONY: build
+.PHONY: dev sync clean
 
 dev:
 	docker build -t ffneumarkt-dev .

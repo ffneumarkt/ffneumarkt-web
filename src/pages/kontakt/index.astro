@@ -19,7 +19,7 @@ const addressText = formatAddressMultiline(settings.data.address);
         />
         <div class="bg-white rounded-2xl p-8 text-center mb-12">
             <h2 class="font-bold text-primary mb-2">
-                🚨 Im Notfall immer {settings.data.emergencyNumber} wählen!
+                🚨 Im Notfall immer <a class="text-accent-vivid text-2xl" href={"tel:"+settings.data.emergencyNumber}>{settings.data.emergencyNumber}</a> wählen!
             </h2>
             <p class="text-secondary text-sm">
                 Folgende Kontaktmöglichkeiten sind nicht für Notfallmeldungen
@@ -30,20 +30,21 @@ const addressText = formatAddressMultiline(settings.data.address);
         <div class="container mx-auto">
             <div class="grid md:grid-cols-3 gap-8">
                 <LinkCard
-                    icon="📞"
-                    title="Telefon"
-                    subtext="Anliegen rund um die Feuerwehr\nKommandant"
-                    href={"tel:" + settings.data.phone}
-                    linkDescription={settings.data.phone}
-                    largeLink
-                />
-                <LinkCard
                     icon="✉️"
                     title="E-Mail"
-                    subtext="Anfragen & Informationen"
+                    subtext="Anfragen & Informationen\n\nz.B. Insekteneinsatz, Medienanfragen"
                     href={"mailto:" + settings.data.email}
                     linkDescription={settings.data.email}
                     largeLink
+                />
+                <LinkCard
+                    icon="📞"
+                    title="Telefon"
+                    subtext="Anliegen rund um die Feuerwehr\n\nKommandant"
+                    href={"tel:" + settings.data.phone}
+                    linkDescription={settings.data.phone}
+                    largeLink
+                    noLinkHighlight
                 />
                 <LinkCard
                     icon="📍"
