@@ -10,6 +10,7 @@ interface Props {
     largeLink?: boolean;
     showArrow?: boolean;
     openInNewTab?: boolean;
+    noLinkHighlight?: boolean;
 }
 const {
     icon,
@@ -21,6 +22,7 @@ const {
     largeLink,
     showArrow,
     openInNewTab,
+    noLinkHighlight,
 } = Astro.props;
 ---
 
@@ -52,7 +54,7 @@ const {
     {
         href && (
             <span
-                class={`font-bold mt-auto ${dark ? "text-dark-primary" : "text-accent-vivid"} ${largeLink ? "text-xl" : "text-sm"}`}
+                class={`text-pretty mt-auto ${dark ? "text-dark-primary" : noLinkHighlight??"text-accent-vivid"} ${largeLink ? "text-xl" : "text-sm"}`}
             >
                 {linkDescription || href}
                 {showArrow ? " →" : ""}
