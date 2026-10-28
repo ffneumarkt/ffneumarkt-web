@@ -28,6 +28,7 @@ export default defineConfig({
     react(),
     sitemap({
       customPages: getVehicleSitemapUrls(site),
+      filter: (page) => !page.includes('/atemschutz/befoerderungspapier'),
 
       serialize(item) {
         item.lastmod = new Date().toISOString();

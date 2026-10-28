@@ -13,9 +13,10 @@ import {
 interface Props {
   title: string;
   showTopAnchorButton?: boolean;
+  noindex?: boolean;
 }
 
-const { title, showTopAnchorButton = false } = Astro.props;
+const { title, showTopAnchorButton = false, noindex = false } = Astro.props;
 const settings = await getEntryOrThrow("settings", "data");
 
 const fireBrigadeName = formatLongFireBrigadeName(
@@ -46,6 +47,7 @@ const footerNavigation = [
   ...primaryNavigation.filter((entry) => entry.href !== "/"),
   { href: "/impressum", label: "Impressum" },
   { href: "/datenschutz", label: "Datenschutz" },
+  { href: "/atemschutz/befoerderungspapier", label: "Beförderungspapier" },
 ];
 ---
 
@@ -58,6 +60,7 @@ const footerNavigation = [
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    {noindex && <meta name="robots" content="noindex" />}
 
     <meta name="description" content={pageDescription} />
 

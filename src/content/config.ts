@@ -90,6 +90,24 @@ const landingPage = defineCollection({
     }),
 });
 
+const transportDocument = defineCollection({
+    type: 'data',
+    schema: z.object({
+        cylinder: z.object({
+            label: z.string(),
+            litresTenths: z.number().int().positive(),
+        }),
+        pointsLimit: z.number().int().positive(),
+        fillingStation: z.object({
+            name: z.string(),
+            street: z.string(),
+            postalCode: z.string(),
+            town: z.string(),
+        }),
+        checklist: z.array(z.string()),
+    }),
+});
+
 const chronicle = defineCollection({
     type: 'data',
     schema: ({ image }) => z.object({
@@ -121,4 +139,4 @@ const commanders = defineCollection(
     }
 )
 
-export const collections = { vehicles, team, settings, landingPage, chronicle, commanders };
+export const collections = { vehicles, team, settings, landingPage, transportDocument, chronicle, commanders };
