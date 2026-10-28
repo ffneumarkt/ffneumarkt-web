@@ -79,10 +79,9 @@ def main():
             compose(motif, size, 0.06 + extra, transparent, overlay).save(OUT / f"{name}-{size}.png", optimize=True)
             # Maskable icons must keep their content inside the central 80 % circle; the crest corners need 21 %.
             compose(motif, size, 0.21 + extra, WHITE, overlay).save(OUT / f"{name}-maskable-{size}.png", optimize=True)
-        # iOS fills transparency with black, so the touch icon gets a white background. The site's
-        # touch icon lives at /apple-touch-icon.png, where iOS also looks for it without a link.
-        touch = ROOT / "public" / "apple-touch-icon.png" if name == "site" else OUT / f"{name}-apple-touch.png"
-        compose(motif, 180, 0.1 + extra, WHITE, overlay).convert("RGB").save(touch, optimize=True)
+        # iOS fills transparency with black, so the touch icon gets a white background. There must be no
+        # /apple-touch-icon.png: iOS prefers it over the page's link, so both apps would get the same icon.
+        compose(motif, 180, 0.1 + extra, WHITE, overlay).convert("RGB").save(OUT / f"{name}-apple-touch.png", optimize=True)
 
 
 if __name__ == "__main__":
