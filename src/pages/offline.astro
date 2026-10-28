@@ -1,0 +1,37 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { TRANSPORT_DOCUMENT_PATH } from "@/pwa/apps";
+
+export const prerender = true;
+---
+
+<Layout title="Offline" noindex>
+    <section class="max-w-3xl mx-auto px-4 py-16 md:py-24 text-center">
+        <h1
+            class="text-primary text-4xl md:text-5xl font-extrabold tracking-tight mb-4"
+        >
+            Keine Verbindung
+        </h1>
+
+        <p class="text-secondary text-lg leading-relaxed pb-10">
+            Diese Seite kann ohne Internetverbindung nicht geladen werden. Das
+            Beförderungspapier funktioniert auch offline.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+                href={TRANSPORT_DOCUMENT_PATH}
+                class="bg-accent text-on-accent px-6 py-3 rounded-lg font-bold transition-all hover:-translate-y-0.5"
+            >
+                Zum Beförderungspapier
+            </a>
+            <button
+                type="button"
+                onclick="location.reload()"
+                class="bg-white border border-slate-200 text-primary px-6 py-3 rounded-lg font-bold transition-all hover:-translate-y-0.5"
+            >
+                Erneut versuchen
+            </button>
+        </div>
+    </section>
+</Layout>
