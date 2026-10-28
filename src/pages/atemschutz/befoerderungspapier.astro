@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageTitle from "@/components/shared/heading/PageTitle.astro";
+import InlineLink from "@/components/shared/link/InlineLink.astro";
+import TransportDocumentForm from "@/components/features/transportDocument/TransportDocumentForm";
+import type { TransportConfig } from "@/components/features/transportDocument/calc";
+import { getEntryOrThrow } from "@/utils/entry";
+import { formatShortFireBrigadeName } from "@/utils/fireBrigadeName";
+
+export const prerender = true;
+
+const LFV_FORM_URL =
+    "https://www.ooelfv.at/downloadcenter/01_Technik_und_Ausruestung/1.5_Atem_und_Koerperschutz/1.5.016_FO_Befoerderungspapier_Pressluftflaschen.pdf";
+
+const settings = await getEntryOrThrow("settings", "data");
+const transportDocument = await getEntryOrThrow("transportDocument", "data");
+const { cylinder, pointsLimit, fillingStation, checklist } = transportDocument.data;
+
+const stationLabel = formatShortFireBrigadeName(settings.data.fireBrigadeName);
+
+const config: TransportConfig = {
+    cylinder,
+    pointsLimit,
+    station: {
+        name: stationLabel,
+        street: settings.data.address.street,
+        postalCode: settings.data.address.postalCode,
+        town: settings.data.address.town,
+    },
+    fillingStation: fillingStation.name.trim() ? fillingStation : null,
+};
+---
+
+<Layout title="Beförderungspapier" noindex>
+    <div class="max-w-3xl mx-auto px-4">
+        <PageTitle>Beförderungspapier Pressluftflaschen</PageTitle>
+        <p class="mb-8 text-secondary">
+            Füllt das Formular <InlineLink href={LFV_FORM_URL}
+                >OÖ LFV 1.5.016</InlineLink
+            > für die Fahrt zur Füllstelle und zurück aus (UN 1002, Flaschen à {
+                cylinder.label
+            } l). Das PDF ausdrucken oder auf dem Handy mitführen.
+        </p>
+
+        <TransportDocumentForm
+            client:load
+            config={config}
+            checklist={checklist}
+            stationLabel={stationLabel}
+        />
+
+        <p class="mt-10 text-xs text-muted leading-relaxed">
+            Dieses Werkzeug ist ein Hilfsmittel. Die Verantwortung für die
+            ordnungsgemäße Beförderung bleibt beim Feuerwehrkommandanten.
+            Grundlage: OÖ LFV Formular 1.5.016 und ÖBFV-Richtlinie KS-19. Nicht
+            für Einsatz- und Übungsfahrten (ADR 1.1.3.1 d) und nicht für
+            Flaschen in fixen Halterungen der Normbeladung.
+        </p>
+    </div>
+</Layout>

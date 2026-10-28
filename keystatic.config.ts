@@ -5,6 +5,7 @@ import { vehicles } from './src/keystatic/vehicles';
 import { landingPage } from '@/keystatic/landingPage';
 import { chronicle } from '@/keystatic/chronicle';
 import { commanders } from '@/keystatic/commanders';
+import { transportDocument } from '@/keystatic/transportDocument';
 
 export default config({
     storage: {
@@ -14,6 +15,7 @@ export default config({
     singletons: {
         settings: globalSettings,
         landingPage: landingPage,
+        transportDocument: transportDocument,
     },
 
     collections: {

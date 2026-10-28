@@ -1,0 +1,15 @@
+cylinder:
+  label: 6,8
+  litresTenths: 68
+pointsLimit: 1000
+fillingStation:
+  name: FF Grünbach
+  street: Freiwaldstraße 15
+  postalCode: '4264'
+  town: Grünbach bei Freistadt
+checklist:
+  - Flaschen gegen Rutschen, Rollen und Kippen gesichert
+  - Schutzkappen / Ventilschutz montiert
+  - 2-kg-Feuerlöscher an Bord, geprüft und plombiert
+  - Gefahrzettel 2.2 an Flaschen bzw. Transportbox angebracht
+  - Restdruck in allen Flaschen vorhanden

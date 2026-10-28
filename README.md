@@ -30,6 +30,7 @@ Current project documentation for the FF Neumarkt public website.
   - `/kontakt`
   - `/impressum`
   - `/datenschutz`
+  - `/atemschutz/befoerderungspapier` (`noindex`, excluded from sitemap, linked in footer only)
 - Server-rendered route:
   - `/fahrzeuge/[slug]` (`prerender = false`)
 
@@ -41,6 +42,8 @@ Content is file-based under `src/content` and media under `src/assets`.
   - emergency number, phone, email, social links, address
 - Singleton: `landingPage` (`src/content/landingPage/data.yaml`)
   - hero images
+- Singleton: `transportDocument` (`src/content/transportDocument/data.yaml`)
+  - cylinder size, ADR 1.1.3.6 points limit, default filling station, pre-trip checklist
 - Collection: `vehicles` (`src/content/vehicles/*.yaml`)
   - tactical name, gallery, technical specs, `details` array (amount + item)
 - Collection: `team` (`src/content/team/*.yaml`)
