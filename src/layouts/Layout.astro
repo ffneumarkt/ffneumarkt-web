@@ -6,6 +6,13 @@ import FooterNavLink from "@/components/shared/navigation/FooterNavLink.astro";
 import { formatAddressMultiline } from "@/utils/address";
 import { getEntryOrThrow } from "@/utils/entry";
 import {
+  THEME_COLOR,
+  appleTouchIcon,
+  apps,
+  transportDocumentText,
+  type AppKey,
+} from "@/pwa/apps";
+import {
   formatLongFireBrigadeName,
   formatShortFireBrigadeName,
 } from "@/utils/fireBrigadeName";
@@ -14,9 +21,16 @@ interface Props {
   title: string;
   showTopAnchorButton?: boolean;
   noindex?: boolean;
+  // The installable app this page belongs to.
+  app?: AppKey;
 }
 
-const { title, showTopAnchorButton = false, noindex = false } = Astro.props;
+const {
+  title,
+  showTopAnchorButton = false,
+  noindex = false,
+  app = "site",
+} = Astro.props;
 const settings = await getEntryOrThrow("settings", "data");
 
 const fireBrigadeName = formatLongFireBrigadeName(
@@ -30,6 +44,9 @@ const mixedFireBrigadeName =
     settings.data.fireBrigadeName.organization) +
   " " +
   settings.data.fireBrigadeName.location;
+
+const appTitle =
+  app === "site" ? shortFireBrigadeName : transportDocumentText.shortName;
 
 const pageTitle = title + " - " + shortFireBrigadeName;
 const pageDescription = `Website der ${fireBrigadeName}`;
@@ -58,6 +75,10 @@ const footerNavigation = [
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/ico" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="manifest" href={apps[app].manifestPath} />
+    <link rel="apple-touch-icon" href={appleTouchIcon(app)} />
+    <meta name="apple-mobile-web-app-title" content={appTitle} />
+    <meta name="theme-color" content={THEME_COLOR} />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     {noindex && <meta name="robots" content="noindex" />}
@@ -293,6 +314,11 @@ const footerNavigation = [
         topAnchorBtn.addEventListener("click", () => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
+      }
+
+      // Only built sites have a service worker (see src/pwa/integration.ts).
+      if (import.meta.env.PROD && "serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
       }
     </script>
   </body>
