@@ -62,7 +62,7 @@ const drawCentered = (page: PDFPage, font: PDFFont, text: string, slot: CellSlot
 };
 
 // Returns a new PDF with one filled copy of the form's first page per trip.
-export async function fillForm(formBytes: ArrayBuffer | Uint8Array, trips: Trip[]): Promise<Uint8Array> {
+export async function fillForm(formBytes: ArrayBuffer | Uint8Array, trips: Trip[], title: string): Promise<Uint8Array> {
     const form = await PDFDocument.load(formBytes);
     const output = await PDFDocument.create();
     const font = await output.embedFont(StandardFonts.Helvetica);
@@ -82,6 +82,7 @@ export async function fillForm(formBytes: ArrayBuffer | Uint8Array, trips: Trip[
         drawCentered(page, font, amount, formLayout.sum.points);
     }
 
-    output.setTitle("Beförderungspapier für Pressluftflaschen");
+    // Shown as the tab title when the PDF is opened in the browser.
+    output.setTitle(title, { showInWindowTitleBar: true });
     return output.save();
 }

@@ -40,6 +40,9 @@ const pad = (value: number) => `${value}`.padStart(2, "0");
 const fileName = (date: Date) =>
     `Befoerderungspapier_${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}_${pad(date.getHours())}${pad(date.getMinutes())}.pdf`;
 
+const documentTitle = (date: Date) =>
+    `Beförderungspapier ${pad(date.getDate())}.${pad(date.getMonth() + 1)}.${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+
 function TripTotal({ count, config }: { count: number | null; config: TransportConfig }) {
     if (count === null || count === 0) {
         return <p className="text-sm text-muted">Keine Flaschen.</p>;
@@ -162,7 +165,9 @@ export default function TransportDocumentForm({ config, checklist, stationLabel 
         return address ? formatAddressLine(address) || "–" : "–";
     };
 
-    const download = async () => {
+    const open = async () => {
+        // The tab must be opened synchronously in the click handler, otherwise popup blockers interfere.
+        const tab = window.open("", "_blank");
         setBusy(true);
         setDownloadError(null);
         try {
@@ -172,14 +177,22 @@ export default function TransportDocumentForm({ config, checklist, stationLabel 
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
-            const bytes = await fillForm(await response.arrayBuffer(), buildTrips(state, config));
+            const now = new Date();
+            const bytes = await fillForm(await response.arrayBuffer(), buildTrips(state, config), documentTitle(now));
             const url = URL.createObjectURL(new Blob([bytes as BlobPart], { type: "application/pdf" }));
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = fileName(new Date());
-            link.click();
-            setTimeout(() => URL.revokeObjectURL(url), 10_000);
+            if (tab) {
+                tab.location.href = url;
+            } else {
+                // Popup blocked: fall back to a download.
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = fileName(now);
+                link.click();
+            }
+            // Kept alive long enough for the tab to load and print the PDF.
+            setTimeout(() => URL.revokeObjectURL(url), 5 * 60_000);
         } catch (error) {
+            tab?.close();
             setDownloadError(
                 error instanceof Error && error.name === "AddressTooLongError"
                     ? "Eine Adresse ist zu lang für das Formular. Bitte kürzen."
@@ -290,11 +303,11 @@ export default function TransportDocumentForm({ config, checklist, stationLabel 
                 )}
                 <button
                     type="button"
-                    onClick={download}
+                    onClick={open}
                     disabled={!result.valid || busy}
                     className="w-full sm:w-auto bg-accent text-on-accent font-bold px-6 py-3 rounded-lg shadow-sm hover:brightness-110 disabled:bg-slate-300 disabled:text-secondary disabled:cursor-not-allowed"
                 >
-                    {busy ? "PDF wird erstellt …" : "PDF herunterladen"}
+                    {busy ? "PDF wird erstellt …" : "PDF öffnen"}
                 </button>
             </div>
         </form>
