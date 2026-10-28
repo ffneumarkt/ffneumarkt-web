@@ -7,7 +7,6 @@ import { formatAddressMultiline } from "@/utils/address";
 import { getEntryOrThrow } from "@/utils/entry";
 import {
   THEME_COLOR,
-  appleTouchIcon,
   apps,
   transportDocumentText,
   type AppKey,
@@ -76,7 +75,11 @@ const footerNavigation = [
     <link rel="icon" type="image/ico" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="manifest" href={apps[app].manifestPath} />
-    <link rel="apple-touch-icon" href={appleTouchIcon(app)} />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href={apps[app].appleTouchIcon}
+    />
     <meta name="apple-mobile-web-app-title" content={appTitle} />
     <meta name="theme-color" content={THEME_COLOR} />
     <meta name="generator" content={Astro.generator} />

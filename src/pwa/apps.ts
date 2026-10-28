@@ -12,6 +12,7 @@ export const BACKGROUND_COLOR = "#ffffff";
 interface App {
     manifestPath: string;
     iconName: string;
+    appleTouchIcon: string;
     startUrl: string;
     // Without trailing slash, so the generator page is in scope with and without one.
     scope: string;
@@ -21,18 +22,19 @@ export const apps: Record<AppKey, App> = {
     site: {
         manifestPath: "/manifest.webmanifest",
         iconName: "site",
+        // Conventional root path, which iOS also requests without a link.
+        appleTouchIcon: "/apple-touch-icon.png",
         startUrl: "/",
         scope: "/",
     },
     transportDocument: {
         manifestPath: `${TRANSPORT_DOCUMENT_PATH}/manifest.webmanifest`,
         iconName: "transport-document",
+        appleTouchIcon: "/icons/transport-document-apple-touch.png",
         startUrl: `${TRANSPORT_DOCUMENT_PATH}/`,
         scope: TRANSPORT_DOCUMENT_PATH,
     },
 };
-
-export const appleTouchIcon = (app: AppKey) => `/icons/${apps[app].iconName}-apple-touch.png`;
 
 interface ManifestText {
     name: string;
