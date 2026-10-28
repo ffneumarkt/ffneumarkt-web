@@ -83,7 +83,8 @@ The integration `src/pwa/integration.ts` writes `dist/sw.js` after the build fro
 - Precached files are served from the cache; other pages come from the network and fall back to `/offline`.
 - There is no service worker in `astro dev`.
 
-Icons in `public/icons` and `public/apple-touch-icon.png` (the conventional path iOS also requests on its own) are generated from `public/Logo_ffneumarkt_grey.png` with `make icons` (Python with Pillow).
+Icons in `public/icons` are generated from `public/Logo_ffneumarkt_grey.png` with `make icons` (Python with Pillow).
+There is deliberately no `/apple-touch-icon.png`: iOS prefers it over the page's link, so both apps would get the same icon.
 
 ## Local development
 

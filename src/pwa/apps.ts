@@ -22,8 +22,9 @@ export const apps: Record<AppKey, App> = {
     site: {
         manifestPath: "/manifest.webmanifest",
         iconName: "site",
-        // Conventional root path, which iOS also requests without a link.
-        appleTouchIcon: "/apple-touch-icon.png",
+        // Not at the conventional /apple-touch-icon.png: iOS prefers that over the page's link,
+        // so the transport document app would get the site's icon.
+        appleTouchIcon: "/icons/site-apple-touch.png",
         startUrl: "/",
         scope: "/",
     },
